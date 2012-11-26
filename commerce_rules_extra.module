@@ -19,7 +19,7 @@
  *   TRUE if the product has the term applied to it on the field $field_name
  *   Otherwise FALSE
  */
-function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id, $with_product_display) {
+function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id, $with_product_display=false) {
   $field_name = trim($field_name);
   return commerce_rules_extra_has_term($line_item, $field_name, $term_id,$with_product_display);
 }
@@ -122,6 +122,7 @@ function commerce_rules_extra_has_term($line_item, $field_name, $term_id, $with_
         }
       }
     }
+    /*
     if ($with_product_display) {
       $pd = $wrapper->commerce_display_path->value();
       if (! empty($pd)) {
@@ -140,6 +141,7 @@ function commerce_rules_extra_has_term($line_item, $field_name, $term_id, $with_
           }
       }
     }
+    */
   }
 
   return FALSE;

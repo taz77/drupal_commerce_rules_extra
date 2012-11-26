@@ -122,6 +122,7 @@ function commerce_rules_extra_rules_condition_info() {
         'description' => t('The term being checked for'),
         'restriction' => 'input',
       ),
+      /*
       'with_product_display' => array(
         'type' => 'boolean',
         'label' => t('Looks in product display too'),
@@ -129,6 +130,7 @@ function commerce_rules_extra_rules_condition_info() {
         'restriction' => 'input',
         'default value' => FALSE,
       ),
+      */
     ),
   );
   
