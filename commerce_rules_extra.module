@@ -19,7 +19,7 @@
  *   TRUE if the product has the term applied to it on the field $field_name
  *   Otherwise FALSE
  */
-function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id, $with_product_display=false) {
+function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id) {
   $field_name = trim($field_name);
   return commerce_rules_extra_has_term($line_item, $field_name, $term_id,$with_product_display);
 }
@@ -99,7 +99,7 @@ function commerce_rules_extra_compare_termed_product_quantity($order, $field_nam
  *   TRUE if the product has the term applied to it on the field $field_name
  *   Otherwise FALSE
  */
-function commerce_rules_extra_has_term($line_item, $field_name, $term_id, $with_product_display) {
+function commerce_rules_extra_has_term($line_item, $field_name, $term_id) {
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
@@ -122,26 +122,6 @@ function commerce_rules_extra_has_term($line_item, $field_name, $term_id, $with_
         }
       }
     }
-    /*
-    if ($with_product_display) {
-      $pd = $wrapper->commerce_display_path->value();
-      if (! empty($pd)) {
-        // Search product display
-        $pd = str_replace("node/","",$pd);
-        $display = node_load($pd);
-        $product_terms = $display->$field_name;
-      }
-      if (!empty($product_terms)) {
-        // If ther term reference field is set to allow more than one term
-        // $product_terms will be an array
-          foreach ($product_terms['und'] as $product_term) {
-            if ($product_term['tid'] == $term_id) {
-              return TRUE;
-             }
-          }
-      }
-    }
-    */
   }
 
   return FALSE;

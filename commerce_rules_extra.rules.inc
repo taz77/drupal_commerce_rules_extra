@@ -122,15 +122,6 @@ function commerce_rules_extra_rules_condition_info() {
         'description' => t('The term being checked for'),
         'restriction' => 'input',
       ),
-      /*
-      'with_product_display' => array(
-        'type' => 'boolean',
-        'label' => t('Looks in product display too'),
-        'description' => t('By default, term is searched only in product. Checking this property will search in product display too'),
-        'restriction' => 'input',
-        'default value' => FALSE,
-      ),
-      */
     ),
   );
   
