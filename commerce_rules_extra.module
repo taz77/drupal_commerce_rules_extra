@@ -21,7 +21,7 @@
  */
 function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id) {
   $field_name = trim($field_name);
-  return commerce_rules_extra_has_term($line_item, $field_name, $term_id,$with_product_display);
+  return commerce_rules_extra_has_term($line_item, $field_name, $term_id);
 }
 
 /**
@@ -310,7 +310,8 @@ function commerce_rules_extra_empty_options_list() {
 function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes) {
   global $pane_changes;
   if (! $pane_changes) $pane_changes = array();
-  if (preg_match('/(checkout)/', request_uri())) {
+  if (preg_match('/(cart|checkout)/', request_uri())) {
+     rules_invoke_all('process_checkout_pane');
      foreach ($pane_changes as $pane_id => $changes) {
          $checkout_panes[$pane_id]['enabled'] = $changes["enabled"];
          if ($changes["weight"] != "") $checkout_panes[$pane_id]['weight'] = $changes["weight"];
