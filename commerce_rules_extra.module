@@ -310,7 +310,7 @@ function commerce_rules_extra_empty_options_list() {
 function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes) {
   global $pane_changes;
   if (! $pane_changes) $pane_changes = array();
-  if (preg_match('/(cart|checkout)/', request_uri())) {
+  if (in_array(arg(0), array('checkout', 'cart'))) {
      rules_invoke_all('process_checkout_pane');
      foreach ($pane_changes as $pane_id => $changes) {
          $checkout_panes[$pane_id]['enabled'] = $changes["enabled"];
