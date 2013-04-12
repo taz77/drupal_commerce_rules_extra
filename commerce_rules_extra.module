@@ -311,7 +311,8 @@ function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes
   global $pane_changes;
   if (! $pane_changes) $pane_changes = array();
   if (in_array(arg(0), array('checkout', 'cart'))) {
-     rules_invoke_all('process_checkout_pane');
+     $commerce_order = menu_get_object('commerce_order');
+     rules_invoke_all('process_checkout_pane', $commerce_order);
      foreach ($pane_changes as $pane_id => $changes) {
          $checkout_panes[$pane_id]['enabled'] = $changes["enabled"];
          if ($changes["weight"] != "") $checkout_panes[$pane_id]['weight'] = $changes["weight"];
