@@ -8,12 +8,14 @@ function commerce_rules_extra_rules_event_info() {
     'process_checkout_pane' => array(
       'label' => t('Process checkout pane'),
       'group' => t('Commerce Checkout'),
+      
       'variables' => array(
         'commerce_order' => array(
            'type' => 'commerce_order',
-          'label' => t('current order')
+          'label' => t('current order'),
         ),
       ),
+      
   ),
   );
 }
