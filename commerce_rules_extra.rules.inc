@@ -75,7 +75,22 @@ function commerce_rules_extra_rules_action_info() {
         ),
       ),
     ),
-
+    'commerce_rules_extra_node_from_line_item' => array(
+      'label' => t('Get the referencing node from the line item'),
+      'group' => t('Commerce Line Item'),
+      'parameter' => array(
+        'line_item' => array(
+          'type' => 'commerce_line_item',
+          'label' => t('Commere Line Item'),
+        ),
+      ),
+      'provides' => array(
+        'referencing_node' => array(
+          'type' => 'node',
+          'label' => t('Referencing node'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -358,4 +373,20 @@ function commerce_rules_extra_compare_termed_product_quantity_form_alter(&$form,
     $form['parameter']['term_id']['settings']['term_id']['#type'] = 'select';
     $form['parameter']['term_id']['settings']['term_id']['#options'] = commerce_rules_extra_get_terms_list($element->settings['field_name']);
   }
+}
+
+/**
+ * Callback function for rule commerce_rules_extra_node_from_line_item
+ *
+ * Return referencing node from line item.
+ **/
+function commerce_rules_extra_node_from_line_item($line_item) {
+  $node = NULL;
+
+  $entity = $line_item->data['context']['entity'];
+  if (isset($entity['entity_id']) && $entity['entity_type'] == 'node') {
+    $node = node_load($entity['entity_id']);
+  }
+
+  return array('referencing_node' => $node);
 }
