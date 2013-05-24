@@ -17,6 +17,24 @@ function commerce_rules_extra_rules_event_info() {
       ),
       
   ),
+  'line_item_quantity_changed' => array(
+      'label' => t('Quantity of line item has changed'),
+      'group' => t('Commerce Checkout'),
+      'variables' => array(
+        'commerce_order' => array(
+          'type' => 'commerce_order',
+          'label' => t('Shopping cart order'),
+        ),
+       'commerce_product' => array(
+          'label' => t('Product'),
+          'type' => 'commerce_product',
+        ),
+        'commerce_line_item' => array(
+          'label' => t('Line item'),
+          'type' => 'commerce_line_item',
+        ),
+      ),
+    ),  
   );
 }
  
