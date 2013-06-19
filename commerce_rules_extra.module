@@ -310,7 +310,9 @@ function commerce_rules_extra_empty_options_list() {
 function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes) {
   global $pane_changes;
   if (! $pane_changes) $pane_changes = array();
-  if (in_array(arg(0), array('checkout', 'cart'))) {
+  $urls = array('checkout');
+  drupal_alter('checkout_pane_urls',$urls);
+  if (in_array(arg(0), $urls)) {
      $commerce_order = menu_get_object('commerce_order');
      if (null == $commerce_order){$commerce_order = commerce_cart_get_properties(FALSE, array(), "current_cart_order");}
      rules_invoke_all('process_checkout_pane', $commerce_order);
@@ -354,3 +356,4 @@ function commerce_rules_extra_commerce_cart_product_add($order, $product, $quant
 function commerce_rules_extra_commerce_cart_product_remove($order, $product, $quantity, $line_item) {
     rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item);
 }
+
