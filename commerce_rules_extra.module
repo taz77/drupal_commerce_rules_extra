@@ -1,41 +1,6 @@
 <?php
 
 /**
- * Takes the machine name of a Taxonomy reference field and retrieves the terms
- * for the associated vocabulary.
- * 
- * @param string $field_name
- *   A string containing the machine name of a Taxonomy reference field.
- * 
- * @return
- *   An array containing the term names of the vocabulary tied to $field_name
- *   prefixed with a certain number of dashes(-) corresponding to the depth of
- *   the term. Term names are keyed by term id.
- */
-function commerce_rules_extra_get_terms_list($field_name) {
-  $field = field_read_field($field_name);
-  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
-  $terms = taxonomy_get_tree($vocabulary->vid);
-  $term_list = array();
-  if (!empty($terms)) {
-    foreach ($terms as $term) {
-      $term_list[$term->tid] = str_repeat('-', $term->depth) . $term->name;
-    }
-  }
-
-  return $term_list;
-}
-
-
-/**
- * An empty options list so that Rules conditions that need manually populated
- * options sets will have their form variables populated correctly.
- */
-function commerce_rules_extra_empty_options_list() {
-  return array();
-}
-
-/**
  *  Implements hook_commerce_checkout_pane_info_alter
  *  
  * Invoke all rules for view_checkout_pane event and alter panes properties returned by rules  

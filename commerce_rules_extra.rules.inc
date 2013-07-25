@@ -47,88 +47,50 @@ function commerce_rules_extra_rules_condition_info() {
   // Define the condition for checking if a line item has a product with a
   // specified term
    
-  $conditions['commerce_rules_extra_rules_condition_has_term'] = array(
-    'group' => t('Commerce Line Item'),
-    'label' => t('Line item product has term'),
-    'parameter' => array(
-      'line_item' => array(
-        'type' => 'commerce_line_item', 
-        'label' => t('Commere Line Item'),
-      ),
-      'field_name' => array(
-        'type' => 'text',
-        'label' => t('Term Reference Field'),
-        'description' => t('The machine-name of the expected product\'s term reference field'),
-        'options list' => 'commerce_rules_extra_term_fields_options_list',
-        'restriction' => 'input',
-      ),
-      'term_id' => array(
-        'type' => 'integer',
-        'label' => t('Taxonomy Term'),
-        'description' => t('The term being checked for'),
-        'restriction' => 'input',
-      ),
-    ),
-  );
-  
   // Define the condition for checking if a line item has a product with
   // specified terms
   $conditions['commerce_rules_extra_rules_condition_has_terms'] = array(
     'group' => t('Commerce Line Item'),
-    'label' => t('Line item product has terms'),
+    'label' => t('Line item product has term(s)'),
     'parameter' => array(
-      'line_item' => array(
+  		'line_item' => array(
         'type' => 'commerce_line_item', 
         'label' => t('Commere Line Item'),
-      ),
-      'field_name' => array(
-        'type' => 'text',
-        'label' => t('Term Reference Field'),
-        'description' => t('The machine-name of the expected product\'s term reference field'),
-        'options list' => 'commerce_rules_extra_term_fields_options_list',
-        'restriction' => 'input',
-      ),
-      'term_ids' => array(
-        'type' => 'list<integer>',
-        'label' => t('Taxonomy Terms'),
-        'description' => t('The terms being checked for'),
-        'options list' => 'commerce_rules_extra_empty_options_list',
-        'restriction' => 'input',
-      ),
-      'require_all' => array(
-        'type' => 'boolean',
-        'label' => t('Require All'),
-        'description' => t('If checked the condition will only return TRUE if
-          the product has all of the selected terms.'),
-        'restriction' => 'input'
-      ),
-    ),
-  );
+      )) + commerce_rules_extra_terms_parameters());
   
+      
+      
+      
   // Define the condition for comparing the quantity of products with a
   // specified term in an order to a value
-  $conditions['commerce_rules_extra_compare_termed_product_quantity'] = array(
+  $conditions['commerce_rules_extra_compare_product_quantity'] = array(
     'group' => t('Commerce Order'),
-    'label' => t('Total product with term quantity comparison'),
+    'label' => t('Total product with quantity comparison'),
     'parameter' => array(
       'order' => array(
         'type' => 'commerce_order',
         'label' => t('Order'),
         'description' => t('The order whose product line item quantities should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
-      ),
-      'field_name' => array(
+      )) 
+      + commerce_rules_extra_terms_parameters(false)
+      + array(
+      'product_type' => array(
         'type' => 'text',
-        'label' => t('Term Reference Field'),
-        'description' => t('The machine-name of the expected product\'s term reference field'),
-        'options list' => 'commerce_rules_extra_term_fields_options_list',
+        'label' => t('Product Type'),
+        'description' => t('The type of the product to look for on the order.'),
+        'options list' => 'commerce_rules_extra_product_type_options_list',
         'restriction' => 'input',
+        'optional' => TRUE,
       ),
-      'term_id' => array(
-        'type' => 'integer',
-        'label' => t('Taxonomy Term'),
-        'description' => t('The term being checked for'),
-        'restriction' => 'input',
+      'exclude' => array(
+        'type' => 'boolean',
+        'label' => t('Exlude content_type'),
+        'description' => t('If checked the 
+          quantity of all products on the order excluding the product type 
+          specified above will be calculated.'),
+        'restriction' => 'input'
       ),
+      
       'operator' => array(
         'type' => 'text',
         'label' => t('Operator'),
@@ -144,91 +106,42 @@ function commerce_rules_extra_rules_condition_info() {
         'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
       ),
     ),
+    
   );
   
-  $conditions['commerce_rules_extra_compare_total_product_type_quantity'] = array(
-    'group' => t('Commerce Order'),
-    'label' => t('Total product of type quantity comparison'),
-    'parameter' => array(
-      'commerce_order' => array(
-        'type' => 'commerce_order',
-        'label' => t('Order'),
-        'description' => t('The order whose product line item quantities should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
-      ),
-      'product_type' => array(
-        'type' => 'text',
-        'label' => t('Product Type'),
-        'description' => t('The type of the product to look for on the order.'),
-        'options list' => 'commerce_product_type_options_list',
-        'restriction' => 'input',
-      ),
-      'exclude' => array(
-        'type' => 'boolean',
-        'label' => t('Exlude'),
-        'description' => t('If checked the 
-          quantity of all products on the order excluding the product type 
-          specified above will be calculated.'),
-        'restriction' => 'input'
-      ),
-      'operator' => array(
-        'type' => 'text',
-        'label' => t('Operator'),
-        'description' => t('The comparison operator to use against the total number of products on the order.'),
-        'default value' => '>=',
-        'options list' => 'commerce_numeric_comparison_operator_options_list',
-        'restriction' => 'input',
-      ),
-      'value' => array(
-        'type' => 'integer',
-        'label' => t('Quantity'),
-        'default value' => 1,
-        'description' => t('The value to compare against the total quantity of products on the order.'),
-      ),
-    ),
-  );
+  $conditions['commerce_rules_extra_compare_product_amount'] = $conditions['commerce_rules_extra_compare_product_quantity'];
+  $conditions['commerce_rules_extra_compare_product_amount']['label'] = t('Total product amount value comparison');
 
-  $conditions['commerce_rules_extra_compare_total_product_type_amount'] = array(
-    'group' => t('Commerce Order'),
-    'label' => t('Total product of type amount value comparison'),
-    'parameter' => array(
-      'commerce_order' => array(
-        'type' => 'commerce_order',
-        'label' => t('Order'),
-        'description' => t('The order whose product line item amount should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
-      ),
-      'product_type' => array(
-        'type' => 'text',
-        'label' => t('Product Type'),
-        'description' => t('The type of the product to look for on the order.'),
-        'options list' => 'commerce_product_type_options_list',
-        'restriction' => 'input',
-      ),
-      'exclude' => array(
-        'type' => 'boolean',
-        'label' => t('Exlude'),
-        'description' => t('If checked the 
-          amount of all products on the order excluding the product type 
-          specified above will be calculated.'),
-        'restriction' => 'input'
-      ),
-      'operator' => array(
-        'type' => 'text',
-        'label' => t('Operator'),
-        'description' => t('The comparison operator to use against the total amount on the order.'),
-        'default value' => '>=',
-        'options list' => 'commerce_numeric_comparison_operator_options_list',
-        'restriction' => 'input',
-      ),
-      'value' => array(
-        'type' => 'integer',
-        'label' => t('Total amount'),
-        'default value' => 100,
-        'description' => t('The value to compare against the total amount of products of the type on the order. Amount without decimal point (ie : 50.65 US ==> 5065'),
-      ),
-    ),
-  );
   
   return $conditions;
+}
+
+function commerce_rules_extra_terms_parameters($required=true) {
+    return array(
+      'field_name' => array(
+        'type' => 'text',
+        'label' => t('Term Reference Field'),
+        'description' => t('The machine-name of the expected product\'s term reference field'),
+        'options list' => ($required ? 'commerce_rules_extra_term_fields_options_list' : 'commerce_rules_extra_term_fields_optional_options_list'),
+        'restriction' => 'input',
+        'optional' => !$required,
+      ),
+      'term_id' => array(
+        'type' => 'list<integer>',
+        'label' => t('Taxonomy Term(s)'),
+        'description' => t('The term(s) being checked for'),
+        'restriction' => 'input',
+        'options list' => 'commerce_rules_extra_empty_options_list',
+        'optional' => !$required,
+            ),
+      'require_all' => array(
+        'type' => 'boolean',
+        'label' => t('Require All'),
+        'description' => t('If checked the condition will only return TRUE if
+          the product has all of the selected terms.'),
+        'restriction' => 'input'
+      ),
+    );
 }
 
 /**
@@ -328,64 +241,31 @@ function commerce_rules_extra_change_pane($pane_id, $page_id, $enabled, $weight)
    
 }
 
-
-/**
- * Alters the form for commerce_rules_extra_rules_condition_has_term
- * so that we can require the term reference field be selected first so that
- * the term_id list can be populated.
- */ 
-function commerce_rules_extra_rules_condition_has_term_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
-  if (!empty($options['init']) && !isset($form_state['rules_element_step'])) {
-    unset($form['parameter']['term_id']);
-    $form_state['rules_element_step'] = 1;
-    $form['negate']['#access'] = FALSE;
-    $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Continue'),
-      '#limit_validation_errors' => array(array('parameter', 'list')),
-      '#submit' => array('rules_form_submit_rebuild'),
-    );
-  }
-  else {
-    // Change the list parameter to be not editable any more.
-    $form['parameter']['field_name']['settings']['#access'] = FALSE;
-    $form['parameter']['field_name']['info'] = array(
-      '#prefix' => '<p>',
-      '#markup' => t('<strong>Selected term field:</strong> %selector', array('%selector' => $element->settings['field_name'])),
-      '#suffix' => '</p>',
-    );
-    $form['parameter']['term_id']['settings']['term_id']['#type'] = 'select';
-    $form['parameter']['term_id']['settings']['term_id']['#options'] = commerce_rules_extra_get_terms_list($element->settings['field_name']);
-  }
-}
-
 /**
  * Alters the form for commerce_rules_extra_rules_condition_has_terms
  * so that we can require the term reference field be selected first so that
  * the term_ids list can be populated.
  */ 
 function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
-  if (!empty($options['init']) && !isset($form_state['rules_element_step'])) {
-    unset($form['parameter']['term_ids'], $form['parameter']['require_all']);
-    $form_state['rules_element_step'] = 1;
-    $form['negate']['#access'] = FALSE;
-    $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Continue'),
-      '#limit_validation_errors' => array(array('parameter', 'list')),
-      '#submit' => array('rules_form_submit_rebuild'),
-    );
-  }
-  else {
     // Change the list parameter to be not editable any more.
-    $form['parameter']['field_name']['settings']['#access'] = FALSE;
-    $form['parameter']['field_name']['info'] = array(
-      '#prefix' => '<p>',
-      '#markup' => t('<strong>Selected term field:</strong> %selector', array('%selector' => $element->settings['field_name'])),
-      '#suffix' => '</p>',
+    $form['parameter']['field_name']['settings']['field_name']['#ajax'] = array(
+        'event' => 'change',
+        'callback' => 'commerce_rules_extra_load_terms',
+        'wrapper' => 'cre_terms',
     );
-    $form['parameter']['term_ids']['settings']['term_ids']['#options'] = commerce_rules_extra_get_terms_list($element->settings['field_name']);
-  }
+    $form['parameter']['term_id']['settings']['term_id']['#prefix'] = "<div id='cre_terms'>";
+    $form['parameter']['term_id']['settings']['term_id']['#options'] = (empty($element->settings['field_name']) ? array() : commerce_rules_extra_get_terms_list($element->settings['field_name']));
+    $form['parameter']['term_id']['settings']['term_id']['#suffix'] = "</div>";
+    $form['parameter']['term_id']['#states'] = array(
+        'invisible' => array(
+      		':input[name="parameter[field_name][settings][field_name]"]' => array('value' => '')
+        ),
+     );
+    $form['parameter']['require_all']['#states'] = array(
+        'invisible' => array(
+      		':input[name="parameter[field_name][settings][field_name]"]' => array('value' => '')
+        ),
+     );
 }
 
 /**
@@ -394,31 +274,13 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  * can require the term reference field be selected first so that the term_id
  * list can be populated.
  */
-function commerce_rules_extra_compare_termed_product_quantity_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
-  if (!empty($options['init']) && !isset($form_state['rules_element_step'])) {
-    unset($form['parameter']['term_id'], $form['parameter']['operator'], $form['parameter']['value']);
-    $form_state['rules_element_step'] = 1;
-    $form['negate']['#access'] = FALSE;
-    $form['submit'] = array(
-      '#type' => 'submit',
-      '#value' => t('Continue'),
-      '#limit_validation_errors' => array(array('parameter', 'list')),
-      '#submit' => array('rules_form_submit_rebuild'),
-    );
-  }
-  else {
-    // Change the list parameter to be not editable any more.
-    $form['parameter']['field_name']['settings']['#access'] = FALSE;
-    $form['parameter']['field_name']['info'] = array(
-      '#prefix' => '<p>',
-      '#markup' => t('<strong>Selected term field:</strong> %selector', array('%selector' => $element->settings['field_name'])),
-      '#suffix' => '</p>',
-    );
-    $form['parameter']['term_id']['settings']['term_id']['#type'] = 'select';
-    $form['parameter']['term_id']['settings']['term_id']['#options'] = commerce_rules_extra_get_terms_list($element->settings['field_name']);
-  }
+function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
+    return commerce_rules_extra_rules_condition_has_terms_form_alter($form, $form_state, $options, $element);    
 }
-
+function commerce_rules_extra_compare_product_amount_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
+    return commerce_rules_extra_rules_condition_has_terms_form_alter($form, $form_state, $options, $element);
+    
+}
 
 /**
  * Callback function for rule commerce_rules_extra_node_from_line_item
@@ -436,116 +298,7 @@ function commerce_rules_extra_node_from_line_item($line_item) {
   return array('referencing_node' => $node);
 }
 
-/**
- * Condition callback: compares the total quantity of products of a specific type
- * against the specified quantity.
- */
-function commerce_rules_extra_compare_total_product_type_quantity($order, $product_type, $exclude, $operator, $value) {
-    return commerce_rules_extra_compare_total_product_type("quantity", $order, $product_type, $exclude, $operator, $value);
-}
 
-
-function commerce_rules_extra_compare_total_product_type_amount($order, $product_type, $exclude, $operator, $value) {
-    return commerce_rules_extra_compare_total_product_type("amount", $order, $product_type, $exclude, $operator, $value);
-}
-
-
-function commerce_rules_extra_compare_total_product_type($type, $order, $product_type, $exclude, $operator, $value) {
-  $total = 0;
-
-  // If we received an order, get the total quantity of products on it.
-  if (!empty($order)) {
-    $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
-  
-    // Populate the array of the quantities of the products on the order.
-    foreach ($order_wrapper->commerce_line_items as $delta => $line_item_wrapper) {
-      if (in_array($line_item_wrapper->type->value(), commerce_product_line_item_types())) {
-        // Get the product
-        $product_wrapper = entity_metadata_wrapper('commerce_product', $line_item_wrapper->commerce_product->product_id->value());
-        // Extract a product type and quantity from the line item.
-        $line_item_product_type = $product_wrapper->type->value();
-        if ($type == "amount") {
-            $a = $line_item_wrapper->commerce_total->value();
-            $amount = $a["amount"];
-        }
-        elseif ($type == "quantity") {
-            $amount = $line_item_wrapper->quantity->value();
-        }
-        // Update the product's quantity value.
-        if ($exclude) {
-          if ($line_item_product_type != $product_type) {
-            $total += $amount;
-          }
-        }
-        else {
-          if ($line_item_product_type == $product_type) {
-            $total += $amount;
-          }
-        }
-        
-      }
-    }
-  }
-
-  // Make a quantity comparison based on the operator.
-  switch ($operator) {
-    case '<':
-      return $total < $value;
-    case '<=':
-      return $total <= $value;
-    case '=':
-      return $total == $value;
-    case '>=':
-      return $total >= $value;
-    case '>':
-      return $total > $value;
-  }
-
-  return FALSE;
-}
-
-
-/**
- * Check if a line item has a product with a certain term id
- * 
- * @param object $line_item
- *   A commerce_line_item containing the product being checked
- * @param string $field_name
- *   A string containing the machine name of a Taxonomy reference field
- * @param integer $term_id
- *   An integer corresponding to a Taxonomy term id
- * 
- * @return
- *   TRUE if the product has the term applied to it on the field $field_name
- *   Otherwise FALSE
- */
-function commerce_rules_extra_has_term($line_item, $field_name, $term_id) {
-  if (!empty($line_item)) {
-    $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
-    $product = $wrapper->commerce_product->value();
-    if (isset($product->$field_name)) {
-      $product_terms = $wrapper->commerce_product->$field_name->value();
-    }
-    if (!empty($product_terms)) {
-      // If ther term reference field is set to allow more than one term
-      // $product_terms will be an array
-      if (is_array($product_terms)) {
-        foreach ($product_terms as $product_term) {
-          if ($product_term->tid == $term_id) {
-            return TRUE;
-          }
-        }
-      }
-      else {
-        if ($product_terms->tid == $term_id) {
-          return TRUE;
-        }
-      }
-    }
-  }
-
-  return FALSE;
-}
 
 /**
  * Check if a line item has a product with certain term ids
@@ -571,7 +324,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $field_name,
       $product_terms = $wrapper->commerce_product->$field_name->value();
     }
     if (!empty($product_terms)) {
-      if ($require_all) {
+        if ($require_all) {
         foreach($term_ids as $term_id){
           // If ther term reference field is set to allow more than one term
           // $product_terms will be an array
@@ -622,31 +375,6 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $field_name,
 }
 
 /**
- * @file
- * Defines functions used for building and processing Rules conditions.
- */
-
-/**
- * Rule condition for checking if a line item has a product with a certain term
- * id
- * 
- * @param object $line_item
- *   A commerce_line_item containing the product being checked
- * @param string $field_name
- *   A string containing the machine name of a Taxonomy reference field
- * @param integer $term_id
- *   An integer corresponding to a Taxonomy term id
- * 
- * @return
- *   TRUE if the product has the term applied to it on the field $field_name
- *   Otherwise FALSE
- */
-function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, $term_id) {
-  $field_name = trim($field_name);
-  return commerce_rules_extra_has_term($line_item, $field_name, $term_id);
-}
-
-/**
  * Calculates the quantity of products in an order that have the term $term_id
  * and compares it to a given value
  * 
@@ -667,7 +395,7 @@ function commerce_rules_extra_rules_condition_has_term($line_item, $field_name, 
  *   The result of evaluating the calculated quantity against $value with the
  *   specified operator.
  */
-function commerce_rules_extra_compare_termed_product_quantity($order, $field_name, $term_id, $operator, $value) {
+function commerce_rules_extra_compare_product_quantity($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value, $type="quantity") {
   $quantity = 0;
   $field_name = trim($field_name);
   
@@ -678,15 +406,31 @@ function commerce_rules_extra_compare_termed_product_quantity($order, $field_nam
       //Holds line items that have products with $term_id
       $termed_line_items = array();
       foreach ($line_items as $line_item) {
+          
         if (in_array($line_item->type, commerce_product_line_item_types())) {
-          if (commerce_rules_extra_has_term($line_item, $field_name, $term_id)) {
-            $termed_line_items[] = $line_item;
-          }
+            $pwrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
+            $product = $pwrapper->commerce_product->value();
+            if (empty($product_type) || 
+               (!$exclude && $product->type == $product_type) || 
+               ($exclude && $product->type != $product_type)) {
+               
+               if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $field_name, $term_ids,$require_all)) {
+                    $termed_line_items[] = $line_item;
+                }
+            }
+            print_r($line_item);
         }
       }
       if (!empty($termed_line_items)) {
-        $quantity = commerce_line_items_quantity($termed_line_items, commerce_product_line_item_types());
+        if ($type == "quantity") {
+            $quantity = commerce_line_items_quantity($termed_line_items, commerce_product_line_item_types());
+        }
+        else {
+            $result = commerce_line_items_total($termed_line_items, commerce_product_line_item_types());
+            $quantity = $result["amount"];
+        }
       }
+      watchdog("cre",$type . " = $quantity for $product_type and " . print_r($term_ids,true));
     }
   }
 
@@ -707,9 +451,17 @@ function commerce_rules_extra_compare_termed_product_quantity($order, $field_nam
   return FALSE;
 }
 
+function commerce_rules_extra_compare_product_amount($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value) {
+    return commerce_rules_extra_compare_product_quantity($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value,"amount");
+}
 /**
  * Returns an array of machine_names for taxonomy term reference fields
  */
+function commerce_rules_extra_term_fields_optional_options_list() {
+  $field_options_list = array("" => "<" . t('none') . ">") + commerce_rules_extra_term_fields_options_list();
+  return $field_options_list;
+}
+
 function commerce_rules_extra_term_fields_options_list() {
   $field_options_list = array();
   $fields = field_read_fields(array('type' => 'taxonomy_term_reference'));
@@ -720,4 +472,53 @@ function commerce_rules_extra_term_fields_options_list() {
   }
 
   return $field_options_list;
+}
+
+function commerce_rules_extra_product_type_options_list() {
+    
+  return array("" => "<" . t('none') . ">") + commerce_product_type_options_list();   
+    
+}
+
+
+function commerce_rules_extra_load_terms($form, $form_state) {
+   return array(
+    '#type' => 'ajax',
+    '#commands' => array(ajax_command_insert(NULL, drupal_render($form["parameter"]['term_id']['settings']))));
+}
+
+
+/**
+ * Takes the machine name of a Taxonomy reference field and retrieves the terms
+ * for the associated vocabulary.
+ * 
+ * @param string $field_name
+ *   A string containing the machine name of a Taxonomy reference field.
+ * 
+ * @return
+ *   An array containing the term names of the vocabulary tied to $field_name
+ *   prefixed with a certain number of dashes(-) corresponding to the depth of
+ *   the term. Term names are keyed by term id.
+ */
+function commerce_rules_extra_get_terms_list($field_name) {
+  $field = field_read_field($field_name);
+  $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  $term_list = array();
+  if (!empty($terms)) {
+    foreach ($terms as $term) {
+      $term_list[$term->tid] = str_repeat('-', $term->depth) . $term->name;
+    }
+  }
+
+  return $term_list;
+}
+
+
+/**
+ * An empty options list so that Rules conditions that need manually populated
+ * options sets will have their form variables populated correctly.
+ */
+function commerce_rules_extra_empty_options_list() {
+  return array();
 }
