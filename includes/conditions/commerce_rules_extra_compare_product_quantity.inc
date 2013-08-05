@@ -106,10 +106,6 @@ function commerce_rules_extra_compare_product($order, $field_name, $term_ids, $r
                     $quantity = $result ["amount"];
                 }
             }
-            drupal_set_message(print_r($quantity, true), 'error');
-            drupal_set_message(print_r($product_type, true), 'error');
-            watchdog("cre", $type . " = $quantity for $product_type and " . print_r($term_ids, true));
-            drupal_set_message(print_r($type, true), 'error');
         }
     }
     
