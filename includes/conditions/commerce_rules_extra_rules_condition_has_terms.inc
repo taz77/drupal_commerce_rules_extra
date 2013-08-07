@@ -30,10 +30,10 @@ function commerce_rules_extra_terms_parameters($required = true) {
                     'options list' => 'commerce_rules_extra_empty_options_list',
                     'optional' => ! $required 
             ),
-            'content_display' => array (
+            'product_display' => array (
                     'type' => 'boolean',
-                    'label' => t('Search terms in content_display, not in product'),
-                    'description' => t('If checked search will be made on content_display.'),
+                    'label' => t('Search terms in product display, not in product'),
+                    'description' => t('If checked search will be made on product display.'),
                     'restriction' => 'input' 
             ), 
             'require_all' => array (
@@ -92,11 +92,11 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  * @return TRUE if the product has the term applied to it on the field $voc_name
  *         Otherwise FALSE
  */
-function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $content_display, $require_all) {
+function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $require_all) {
     if (! empty($line_item)) {
         $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
         $product = $wrapper->commerce_product->value();
-        if ($content_display) {
+        if ($product_display) {
             $node = commerce_rules_extra_node_from_line_item($line_item);
             $node = $node["referencing_node"];
             $query = db_select('taxonomy_index','t')

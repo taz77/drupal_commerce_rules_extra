@@ -72,10 +72,10 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
  * @return The result of evaluating the calculated quantity against $value with the
  *         specified operator.
  */
-function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value) {
-    return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value, "quantity");
+function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value) {
+    return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value, "quantity");
 }
-function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value, $type = "quantity") {
+function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value, $type = "quantity") {
     $quantity = 0;
     $voc_name = trim($voc_name);
     
@@ -92,7 +92,7 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $con
                     $product = $pwrapper->commerce_product->value();
                     if (empty($product_type) || (! $exclude && $product->type == $product_type) || ($exclude && $product->type != $product_type)) {
                         
-                        if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $content_display, $require_all)) {
+                        if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $require_all)) {
                             $termed_line_items [] = $line_item;
                         }
                     }

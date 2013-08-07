@@ -13,7 +13,7 @@ function commerce_rules_extra_compare_product_amount_condition_info() {
 function commerce_rules_extra_compare_product_amount_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
     return commerce_rules_extra_rules_condition_has_terms_form_alter($form, $form_state, $options, $element);
 }
-function commerce_rules_extra_compare_product_amount($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value) {
-    return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $content_display,$require_all, $product_type, $exclude, $operator, $value, "amount");
+function commerce_rules_extra_compare_product_amount($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value) {
+    return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display,$require_all, $product_type, $exclude, $operator, $value, "amount");
 }
 
