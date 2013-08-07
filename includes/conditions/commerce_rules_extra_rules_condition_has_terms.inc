@@ -14,7 +14,7 @@ function commerce_rules_extra_rules_condition_has_terms_condition_info() {
 }
 function commerce_rules_extra_terms_parameters($required = true) {
     return array (
-            'field_name' => array (
+            'voc_name' => array (
                     'type' => 'text',
                     'label' => t('Term Reference Field'),
                     'description' => t('The machine-name of the expected product\'s term reference field'),
@@ -30,6 +30,12 @@ function commerce_rules_extra_terms_parameters($required = true) {
                     'options list' => 'commerce_rules_extra_empty_options_list',
                     'optional' => ! $required 
             ),
+            'content_display' => array (
+                    'type' => 'boolean',
+                    'label' => t('Search terms in content_display, not in product'),
+                    'description' => t('If checked search will be made on content_display.'),
+                    'restriction' => 'input' 
+            ), 
             'require_all' => array (
                     'type' => 'boolean',
                     'label' => t('Require All'),
@@ -46,24 +52,25 @@ function commerce_rules_extra_terms_parameters($required = true) {
  */
 function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
     // Change the list parameter to be not editable any more.
-    $form ['parameter'] ['field_name'] ['settings'] ['field_name'] ['#ajax'] = array (
+   
+    $form ['parameter'] ['voc_name'] ['settings'] ['voc_name'] ['#ajax'] = array (
             'event' => 'change',
             'callback' => 'commerce_rules_extra_ajax_load_terms',
             'wrapper' => 'cre_terms' 
     );
     $form ['parameter'] ['term_id'] ['settings'] ['term_id'] ['#prefix'] = "<div id='cre_terms'>";
-    $form ['parameter'] ['term_id'] ['settings'] ['term_id'] ['#options'] = (empty($element->settings ['field_name']) ? array () : commerce_rules_extra_get_terms_list($element->settings ['field_name']));
+    $form ['parameter'] ['term_id'] ['settings'] ['term_id'] ['#options'] = (empty($element->settings ['voc_name']) ? array () : commerce_rules_extra_get_terms_list($element->settings ['voc_name']));
     $form ['parameter'] ['term_id'] ['settings'] ['term_id'] ['#suffix'] = "</div>";
     $form ['parameter'] ['term_id'] ['#states'] = array (
             'invisible' => array (
-                    ':input[name="parameter[field_name][settings][field_name]"]' => array (
+                    ':input[name="parameter[voc_name][settings][voc_name]"]' => array (
                             'value' => '' 
                     ) 
             ) 
     );
     $form ['parameter'] ['require_all'] ['#states'] = array (
             'invisible' => array (
-                    ':input[name="parameter[field_name][settings][field_name]"]' => array (
+                    ':input[name="parameter[voc_name][settings][voc_name]"]' => array (
                             'value' => '' 
                     ) 
             ) 
@@ -75,22 +82,39 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  *
  * @param object $line_item
  *            A commerce_line_item containing the product being checked
- * @param string $field_name
+ * @param string $voc_name
  *            A string containing the machine name of a Taxonomy reference field
  * @param array $term_ids
  *            An array containing Taxonomy term ids to check for
  * @param boolean $require_all
  *            A boolean variable indicating whether or not all term ids must be present
  *            
- * @return TRUE if the product has the term applied to it on the field $field_name
+ * @return TRUE if the product has the term applied to it on the field $voc_name
  *         Otherwise FALSE
  */
-function commerce_rules_extra_rules_condition_has_terms($line_item, $field_name, $term_ids, $require_all) {
+function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $content_display, $require_all) {
     if (! empty($line_item)) {
         $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
         $product = $wrapper->commerce_product->value();
-        if (isset($product->$field_name)) {
-            $product_terms = $wrapper->commerce_product->$field_name->value();
+        if ($content_display) {
+            $node = commerce_rules_extra_node_from_line_item($line_item);
+            $node = $node["referencing_node"];
+            $query = db_select('taxonomy_index','t')
+                        ->fields('t',array('tid'))
+                        ->condition('nid', $node->nid, '=');
+            $results = $query->execute();
+            foreach ($results as $t) {
+                $product_terms[] = $t;
+            }
+        }
+        else {
+            foreach(commerce_rules_extra_get_fields_for_vocabulary($voc_name) as $field) {
+            
+                if (isset($product->$field)) {
+                    $product_terms = $wrapper->commerce_product->$field->value();
+                    break;
+                }
+            }
         }
         if (! empty($product_terms)) {
             if ($require_all) {
@@ -140,6 +164,23 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $field_name,
     return FALSE;
 }
 
+function commerce_rules_extra_get_fields_for_vocabulary($voc) {
+    $fields = &drupal_static(__FUNCTION__);
+    
+    if (!isset($fields)) {
+        $termfields = field_read_fields(array (
+                'type' => 'taxonomy_term_reference'
+        ));
+        foreach($termfields as $voc_name => $infos) {
+            if ($infos["settings"]["allowed_values"][0]["vocabulary"] == $voc) {
+                $fields[] = $voc_name;
+            }
+        }
+    }
+    return $fields;
+    
+}
+
 /**
  * Returns an array of machine_names for taxonomy term reference fields
  */
@@ -154,10 +195,16 @@ function commerce_rules_extra_term_fields_options_list() {
     $fields = field_read_fields(array (
             'type' => 'taxonomy_term_reference' 
     ));
+  
     if (! empty($fields)) {
         foreach ( $fields as $key => $value ) {
-            $field_options_list [$key] = $key;
+            //$field_options_list [$key] = $key;
         }
+    }
+    
+    $vocs = taxonomy_get_vocabularies();
+    foreach ($vocs as $voc) {
+        $field_options_list [$voc->machine_name] = $voc->name;
     }
     
     return $field_options_list;
@@ -175,17 +222,20 @@ function commerce_rules_extra_ajax_load_terms($form, $form_state) {
  * Takes the machine name of a Taxonomy reference field and retrieves the terms
  * for the associated vocabulary.
  *
- * @param string $field_name
+ * @param string $voc_name
  *            A string containing the machine name of a Taxonomy reference field.
  *            
- * @return An array containing the term names of the vocabulary tied to $field_name
+ * @return An array containing the term names of the vocabulary tied to $voc_name
  *         prefixed with a certain number of dashes(-) corresponding to the depth of
  *         the term. Term names are keyed by term id.
  */
-function commerce_rules_extra_get_terms_list($field_name) {
-    $field = field_read_field($field_name);
-    $vocabulary = taxonomy_vocabulary_machine_name_load($field ['settings'] ['allowed_values'] [0] ['vocabulary']);
-    $terms = taxonomy_get_tree($vocabulary->vid);
+function commerce_rules_extra_get_terms_list($voc_name) {
+    if (empty($voc_name)) return array();
+//    $field = field_read_field($voc_name);
+  //  $vocabulary = taxonomy_vocabulary_machine_name_load($field ['settings'] ['allowed_values'] [0] ['vocabulary']);
+    //$terms = taxonomy_get_tree($vocabulary->vid);
+    $voc = taxonomy_vocabulary_machine_name_load($voc_name);
+    $terms = taxonomy_get_tree($voc->vid);
     $term_list = array ();
     if (! empty($terms)) {
         foreach ( $terms as $term ) {

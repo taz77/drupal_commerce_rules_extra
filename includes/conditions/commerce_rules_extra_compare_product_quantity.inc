@@ -58,7 +58,7 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
  *
  * @param object $order
  *            A commerce_order containing the products being checked
- * @param string $field_name
+ * @param string $voc_name
  *            A string containing the machine name of a Taxonomy reference field
  * @param integer $term_id
  *            An integer corresponding to a Taxonomy term id
@@ -67,17 +67,17 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
  *            $value
  * @param integer $value
  *            An integer to compare to the quantity of products containing $term_id in
- *            the $field_name field
+ *            the $voc_name field
  *            
  * @return The result of evaluating the calculated quantity against $value with the
  *         specified operator.
  */
-function commerce_rules_extra_compare_product_quantity($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value) {
-    return commerce_rules_extra_compare_product($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value, "quantity");
+function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value) {
+    return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value, "quantity");
 }
-function commerce_rules_extra_compare_product($order, $field_name, $term_ids, $require_all, $product_type, $exclude, $operator, $value, $type = "quantity") {
+function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $content_display, $require_all, $product_type, $exclude, $operator, $value, $type = "quantity") {
     $quantity = 0;
-    $field_name = trim($field_name);
+    $voc_name = trim($voc_name);
     
     if (! empty($order)) {
         $wrapper = entity_metadata_wrapper('commerce_order', $order);
@@ -92,7 +92,7 @@ function commerce_rules_extra_compare_product($order, $field_name, $term_ids, $r
                     $product = $pwrapper->commerce_product->value();
                     if (empty($product_type) || (! $exclude && $product->type == $product_type) || ($exclude && $product->type != $product_type)) {
                         
-                        if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $field_name, $term_ids, $require_all)) {
+                        if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $content_display, $require_all)) {
                             $termed_line_items [] = $line_item;
                         }
                     }
