@@ -73,10 +73,36 @@ function commerce_rules_extra_change_pane($pane_id, $page_id, $enabled, $weight)
     global $pane_changes;
     if (! $pane_changes)
         $pane_changes = array ();
-    $pane_changes [$pane_id] = array (
+    $pane_changes[$pane_id] = array (
             "page_id" => ($enabled ? $page_id : "disabled"),
             "enabled" => $enabled,
             "weight" => $weight 
     );
 }
 
+/**
+ * Show/hide panes when viewing command
+ * @param unknown $infos
+ * @param unknown $entity_type
+ */
+function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
+    global $pane_changes;
+    if (! $pane_changes)
+        $pane_changes = array ();
+        
+    $commerce_order = $infos["#entity"];
+    //rules_invoke_all('process_checkout_pane', $commerce_order);
+        
+    foreach ( $pane_changes as $pane_id => $changes ) {
+       $field_name = variable_get('commerce_' . $pane_id . '_field', '');
+       if (empty($field_name)) {$field_name = $pane_id;}
+       if (! array_key_exists($field_name, $infos)) continue;
+       if ($changes ["enabled"] == false) {
+           unset($infos[$field_name]); //["#access"] = false;
+       }
+       else if ($changes["weight"] != "") {
+          $infos[$field_name]["#weight"] = $changes["weight"];
+       }
+    }
+    
+} 
