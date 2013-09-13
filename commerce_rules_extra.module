@@ -12,4 +12,8 @@ foreach ( array ("events","conditions","actions") as $subdir ) {
 }
 
 
+function commerce_rules_extra_get_quantity_property($order, array $options, $name) {
+    $wrapper = entity_metadata_wrapper('commerce_order', $order);
+    return commerce_line_items_quantity($wrapper->commerce_line_items, commerce_product_line_item_types());
+}
 

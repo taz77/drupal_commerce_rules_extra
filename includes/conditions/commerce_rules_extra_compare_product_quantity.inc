@@ -11,9 +11,9 @@ function commerce_rules_extra_compare_product_quantity_condition_info() {
                     ) 
             ) + commerce_rules_extra_terms_parameters(false) + array (
                     'product_type' => array (
-                            'type' => 'text',
-                            'label' => t('Product Type'),
-                            'description' => t('The type of the product to look for on the order.'),
+                            'type' => 'list<integer>',
+                            'label' => t('Product Type(s)'),
+                            'description' => t('The type(s) of the product to look for on the order.'),
                             'options list' => 'commerce_rules_extra_product_type_options_list',
                             'restriction' => 'input',
                             'optional' => TRUE 
@@ -86,11 +86,10 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
             // Holds line items that have products with $term_id
             $termed_line_items = array ();
             foreach ( $line_items as $line_item ) {
-                
                 if (in_array($line_item->type, commerce_product_line_item_types())) {
                     $pwrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
                     $product = $pwrapper->commerce_product->value();
-                    if (empty($product_type) || (! $exclude && $product->type == $product_type) || ($exclude && $product->type != $product_type)) {
+                    if (empty($product_type) || (! $exclude && array_key_exists($product->type, $product_type)) || ($exclude && ! array_key_exists($product->type, $product_type))) {
                         
                         if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $require_all)) {
                             $termed_line_items [] = $line_item;
