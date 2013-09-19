@@ -43,18 +43,3 @@ function commerce_rules_extra_rules_action_info() {
     return $actions;
 }
 
-/** Add Total quantity in order object 
- * 
- * @param unknown $info
- */
-function commerce_rules_extra_entity_property_info_alter(&$info) {
-    $info['commerce_order']['properties']['commerce_order_quantity'] = array(
-            'type' => 'integer',
-            'label' => t('Total quantity'),
-            'description' => t('Total quantity of the order.'),
-            'getter callback' => 'commerce_rules_extra_get_quantity_property',
-            'computed' => TRUE,
-    );
-}
-
-

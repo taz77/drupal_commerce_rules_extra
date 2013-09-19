@@ -11,7 +11,7 @@ dependencies[] = rules
 
 
 ; Information added by drupal.org packaging script on 2011-11-10
-version = "7.x-1.x-dev"
+version = "7.x-2.x-dev"
 core = "7.x"
 project = "commerce_rules_extra"
 datestamp = "1320926766"
