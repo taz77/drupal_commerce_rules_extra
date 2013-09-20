@@ -23,7 +23,7 @@ function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes
     if (! $pane_changes)
         $pane_changes = array ();
     $urls = array (
-            'checkout' 
+            'checkout','system' 
     );
     drupal_alter('checkout_pane_urls', $urls);
     if (in_array(arg(0), $urls)) {
