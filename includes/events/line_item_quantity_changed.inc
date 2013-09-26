@@ -15,7 +15,12 @@ function line_item_quantity_changed_event_info() {
                     'commerce_line_item' => array (
                             'label' => t('Line item'),
                             'type' => 'commerce_line_item' 
-                    ) 
+                    ),
+                    'commerce_line_item_old_quantity' => array(
+                            'label' => t("Commerce item quantity before changes"),
+                            'type'  => 'decimal'
+                    )
+                    
             ) 
     );
 }
@@ -27,17 +32,20 @@ function commerce_rules_extra_cart_submit($form, &$form_state) {
         $line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
         $product = $line_item_wrapper->commerce_product->value();
         if (floatval($form ['edit_quantity'] [$i] ['#value']) != floatval($line_item->quantity)) {
+            $old_quantity = floatval($line_item->quantity); 
             $line_item->quantity = $form ['edit_quantity'] [$i] ['#value'];
-            rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item);
+            rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item, $old_quantity);
         }
         $i ++;
     }
 }
 function commerce_rules_extra_commerce_cart_product_add($order, $product, $quantity, $line_item) {
-    rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item);
+    rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item, floatval($line_item->quantity) - floatval($quantity));
 }
 function commerce_rules_extra_commerce_cart_product_remove($order, $product, $quantity, $line_item) {
-    rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item);
+    $old_quantity = floatval($line_item->quantity);
+    $line_item->quantity = 0;
+    rules_invoke_event('line_item_quantity_changed', $order, $product, $line_item, $old_quantity);
 }
 
 /**

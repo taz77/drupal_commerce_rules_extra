@@ -26,7 +26,7 @@ function commerce_rules_extra_node_from_line_item_action_info() {
 function commerce_rules_extra_node_from_line_item($line_item) {
     $node = NULL;
     
-    $entity = $line_item->data ['context'] ['entity'];
+    $entity = $line_item->data['context']['entity'];
     if (isset($entity ['entity_id']) && $entity ['entity_type'] == 'node') {
         $node = node_load($entity ['entity_id']);
     }
