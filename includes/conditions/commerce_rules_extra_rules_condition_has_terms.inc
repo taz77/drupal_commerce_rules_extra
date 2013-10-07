@@ -88,7 +88,6 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
     $form["#theme"] = "form--cre_condition";
 }
 function commerce_rules_extra_theme($existing, $type, $theme, $path) {
-    drupal_set_message($path);
     return array (
             
             'form--cre_condition' => array (
