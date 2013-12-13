@@ -121,6 +121,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
         if ($product_display) {
             $node = commerce_rules_extra_node_from_line_item($line_item);
             $node = $node["referencing_node"];
+            if (null == $node) return false;
             $query = db_select('taxonomy_index', 't')->fields('t', array (
                     'tid' 
             ))->condition('nid', $node->nid, '=');
