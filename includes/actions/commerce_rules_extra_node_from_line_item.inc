@@ -25,11 +25,20 @@ function commerce_rules_extra_node_from_line_item_action_info() {
  */
 function commerce_rules_extra_node_from_line_item($line_item) {
     $node = NULL;
-    if (! empty($line_item->line_item_id)) {
+    if (isset($line_item->data['context'])) {
         $entity = $line_item->data['context']['entity'];
-        if (isset($entity['entity_id']) && $entity['entity_type'] == 'node') {
-            $node = node_load($entity['entity_id']);
+        if (is_array($entity)) {
+            if (isset($entity['entity_id']) && $entity['entity_type'] == 'node') {
+                $node = node_load($entity['entity_id']);
+            }
         }
+        if (is_object($entity)) {
+            if (isset($entity->nid)) {
+                $node = node_load($entity->nid);
+            }
+        }
+            
     }
+    
     return array ('referencing_node' => $node);
 }

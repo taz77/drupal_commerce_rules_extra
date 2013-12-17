@@ -119,6 +119,9 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
         $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
         $product = $wrapper->commerce_product->value();
         if ($product_display) {
+            if (empty($line_item->line_item_id) && (isset($product->display_context))) {
+                $line_item->data["context"] = $product->display_context;
+            }
             $node = commerce_rules_extra_node_from_line_item($line_item);
             $node = $node["referencing_node"];
             if (null == $node) return false;
