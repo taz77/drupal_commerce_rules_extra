@@ -37,22 +37,6 @@ function commerce_rules_extra_change_pane_action_info() {
 /**
  * Option list callback for commerce_rules_extra_change_pane
  *
- * Return list of checkout pages
- */
-function commerce_rules_extra_get_pages() {
-    $pages = commerce_checkout_pages();
-    $return = array (
-            "<same>" => "<do not change>" 
-    );
-    foreach ( $pages as $page_id => $page ) {
-        $return [$page_id] = $page ["title"];
-    }
-    return $return;
-}
-
-/**
- * Option list callback for commerce_rules_extra_change_pane
- *
  * Return list of checkout panes
  */
 function commerce_rules_extra_get_panes() {
@@ -91,7 +75,7 @@ function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
         $pane_changes = array ();
         
     $commerce_order = $infos["#entity"];
-    //rules_invoke_all('process_checkout_pane', $commerce_order);
+    rules_invoke_all('process_checkout_pane', $commerce_order);
         
     foreach ( $pane_changes as $pane_id => $changes ) {
        $field_name = variable_get('commerce_' . $pane_id . '_field', '');

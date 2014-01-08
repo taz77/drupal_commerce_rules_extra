@@ -1,0 +1,34 @@
+<?php
+
+function process_checkout_page_event_info() {
+  return array(
+    'label' => t('Process checkout page'),
+    'group' => t('Commerce Checkout'),
+  );
+}
+
+/**
+ * Implements hook_commerce_checkout_page_info_alter
+ *
+ * Invoke all rules for process_checkout_page event and alter pages properties returned by rules
+ */
+function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages) {
+  global $page_changes;
+  if (!$page_changes) {
+    $page_changes = array();
+  }
+  $urls = array(
+    'checkout', 'system'
+  );
+  drupal_alter('checkout_page_urls', $urls);
+  if (in_array(arg(0), $urls)) {
+
+    rules_invoke_all('process_checkout_page');
+
+    foreach ($page_changes as $page_id => $changes) {
+      if ($changes['submit_value'] != '') {
+        $checkout_pages[$page_id]['submit_value'] = $changes['submit_value'];
+      }
+    }
+  }
+}

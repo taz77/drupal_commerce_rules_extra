@@ -43,3 +43,18 @@ function commerce_rules_extra_rules_action_info() {
     return $actions;
 }
 
+/**
+ * Option list callback for commerce_rules_extra_change_pane
+ *
+ * Return list of checkout pages
+ */
+function commerce_rules_extra_get_pages() {
+  $pages = commerce_checkout_pages();
+  $return = array(
+    "<same>" => "<do not change>"
+  );
+  foreach ($pages as $page_id => $page) {
+    $return [$page_id] = $page ["title"];
+  }
+  return $return;
+}
