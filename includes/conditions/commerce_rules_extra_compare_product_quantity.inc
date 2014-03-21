@@ -78,7 +78,6 @@ function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_
 function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, $type = "quantity") {
     $quantity = 0;
     $voc_name = trim($voc_name);
-    
     if (! empty($order)) {
         $wrapper = entity_metadata_wrapper('commerce_order', $order);
         $line_items = $wrapper->commerce_line_items->value();
@@ -89,8 +88,7 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
                 if (in_array($line_item->type, commerce_product_line_item_types())) {
                     $pwrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
                     $product = $pwrapper->commerce_product->value();
-                    if (empty($product_type) || (! $exclude && array_key_exists($product->type, $product_type)) || ($exclude && ! array_key_exists($product->type, $product_type))) {
-                        
+                    if ((empty($product_type) || array_key_exists('',$product_type)) || (! $exclude && array_key_exists($product->type, $product_type)) || ($exclude && ! array_key_exists($product->type, $product_type))) {
                         if (empty($term_ids) || commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $term_operator)) {
                             $termed_line_items [] = $line_item;
                         }

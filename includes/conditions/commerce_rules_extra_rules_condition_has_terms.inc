@@ -118,6 +118,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
     if (! empty($line_item)) {
         $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
         $product = $wrapper->commerce_product->value();
+        $product_terms = array();
         if ($product_display) {
             if (empty($line_item->line_item_id) && (isset($product->display_context))) {
                 $line_item->data["context"] = $product->display_context;
