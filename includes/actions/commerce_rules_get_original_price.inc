@@ -10,7 +10,7 @@ function commerce_rules_get_original_price_action_info() {
                     ),
             ),
             'provides' => array(
-                    'orig_price' => array(
+                    'original_price' => array(
                             'type' => 'integer',
                             'label' => t('Original Price'),
                     ),
