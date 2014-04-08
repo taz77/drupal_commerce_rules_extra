@@ -195,13 +195,11 @@ function commerce_rules_extra_get_fields_for_vocabulary($voc) {
         $termfields = field_read_fields(array (
                 'type' => 'taxonomy_term_reference' 
         ));
-        foreach ( $termfields as $voc_name => $infos ) {
-            if ($infos["settings"]["allowed_values"][0]["vocabulary"] == $voc) {
-                $fields[] = $voc_name;
-            }
+        foreach ( $termfields as $field_name => $infos ) {
+            $fields[$infos["settings"]["allowed_values"][0]["vocabulary"]][] = $field_name;
         }
     }
-    return $fields;
+    return $fields[$voc];
 }
 
 /**
