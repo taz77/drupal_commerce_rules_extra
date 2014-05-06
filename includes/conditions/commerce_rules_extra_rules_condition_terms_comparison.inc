@@ -51,9 +51,11 @@ function commerce_rules_extra_rules_condition_terms_comparison($line_item, $voc_
                 break;
             }
         }
-        if ($product_terms->tid == $entity) {
-            return TRUE;
-        }
+		if(isset($product_terms->tid)) {
+			if ($product_terms->tid == $entity) {
+				return TRUE;
+			}
+		}
     }
     return FALSE;
 }
