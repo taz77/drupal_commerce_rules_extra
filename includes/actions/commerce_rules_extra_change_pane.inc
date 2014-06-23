@@ -43,7 +43,7 @@ function commerce_rules_extra_get_panes() {
     $panes = commerce_checkout_panes();
     $return = array ();
     foreach ( $panes as $pane_id => $pane ) {
-        $return [$pane_id] = $pane ["title"];
+        $return [$pane_id] = $pane ["name"];
     }
     return $return;
 }

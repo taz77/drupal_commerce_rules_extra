@@ -54,7 +54,7 @@ function commerce_rules_extra_get_pages() {
     "<same>" => "<do not change>"
   );
   foreach ($pages as $page_id => $page) {
-    $return [$page_id] = $page ["title"];
+    $return [$page_id] = $page ["name"];
   }
   return $return;
 }
