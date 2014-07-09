@@ -22,10 +22,14 @@ function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages
   );
   drupal_alter('checkout_page_urls', $urls);
   if (in_array(arg(0), $urls)) {
-
     rules_invoke_all('process_checkout_page');
-
     foreach ($page_changes as $page_id => $changes) {
+      if ($changes['title'] != '') {
+        $checkout_pages[$page_id]['title'] = $changes['title'];
+      }
+      if ($changes['help'] != '') {
+        $checkout_pages[$page_id]['help'] = $changes['help'];
+      }
       if ($changes['submit_value'] != '') {
         $checkout_pages[$page_id]['submit_value'] = $changes['submit_value'];
       }
