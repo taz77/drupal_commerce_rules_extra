@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Rules action Change Page Properties Action.
+ */
+
+/**
+ * Helper function to return the action info to the main module.
+ */
 function commerce_rules_extra_change_page_action_info() {
   return array(
     'label' => t('Change page properties'),
@@ -10,37 +18,37 @@ function commerce_rules_extra_change_page_action_info() {
         'label' => t('Page to change properties for'),
         'options list' => 'commerce_rules_extra_get_pages',
         'default value' => "<same>",
-        'restriction' => "input"
+        'restriction' => "input",
       ),
       'title' => array(
         'type' => 'text',
         'label' => t('Page title'),
         'description' => t('Set the page title.'),
         'optional' => TRUE,
-        'restriction' => 'input'
+        'restriction' => 'input',
       ),
       'help' => array(
         'type' => 'text',
         'label' => t('Help text'),
         'description' => t('Set the help text displayed at the top of the page.'),
         'optional' => TRUE,
-        'restriction' => 'input'
+        'restriction' => 'input',
       ),
       'submit_value' => array(
         'type' => 'text',
         'label' => t('Submit button value'),
         'description' => t('Set the value of the submit button.'),
         'optional' => TRUE,
-        'restriction' => 'input'
+        'restriction' => 'input',
       )
     )
   );
 }
 
 /**
- * Callback function for rule commerce_rules_extra_change_pane
+ * Callback function for rule commerce_rules_extra_change_pane.
  *
- * Store in global variables all properties changes for a pane
+ * Store in global variables all properties changes for a pane.
  */
 function commerce_rules_extra_change_page($page_id, $title, $help, $submit_value) {
   global $page_changes;
@@ -49,6 +57,6 @@ function commerce_rules_extra_change_page($page_id, $title, $help, $submit_value
   $page_changes[$page_id] = array(
     'title' => $title,
     'help' => $help,
-    'submit_value' => $submit_value
+    'submit_value' => $submit_value,
   );
 }

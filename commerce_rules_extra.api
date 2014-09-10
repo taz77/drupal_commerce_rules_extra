@@ -5,8 +5,8 @@
  *  Change urls where "Process_checkout_pane" rule event is triggered
  *  $urls : Array of urls
  *  
- **/  
+ * */
 function commerce_rules_extra_rules_hook_checkout_pane_urls_alter(&$urls) {
-    // Also trigger event on /cart url
-    $urls[] = "cart";
+  // Also trigger event on /cart url
+  $urls[] = 'cart';
 }
