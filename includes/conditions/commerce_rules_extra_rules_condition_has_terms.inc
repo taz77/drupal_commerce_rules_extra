@@ -209,7 +209,7 @@ function commerce_rules_extra_term_fields_options_list() {
 }
 
 /**
- * Callback function to load terms into form for has terms. 
+ * Callback function to load terms into form for has terms.
  */
 function commerce_rules_extra_ajax_load_terms($form, $form_state) {
   return array(
@@ -220,13 +220,6 @@ function commerce_rules_extra_ajax_load_terms($form, $form_state) {
 
 /**
  * Function to take the machine name of a Taxonomy reference field and retrieves the terms.
- *
- * @param string $voc_name
- *            A string containing the machine name of a Taxonomy reference field.
- *            
- * @return An array containing the term names of the vocabulary tied to $voc_name
- *         prefixed with a certain number of dashes(-) corresponding to the depth of
- *         the term. Term names are keyed by term id.
  */
 function commerce_rules_extra_get_terms_list($voc_name) {
   if (empty($voc_name)) {
