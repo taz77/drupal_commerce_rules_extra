@@ -17,8 +17,8 @@ function commerce_rules_extra_change_page_action_info() {
         'type' => 'text',
         'label' => t('Page to change properties for'),
         'options list' => 'commerce_rules_extra_get_pages',
-        'default value' => "<same>",
-        'restriction' => "input",
+        'default value' => '<same>',
+        'restriction' => 'input',
       ),
       'title' => array(
         'type' => 'text',
@@ -46,14 +46,15 @@ function commerce_rules_extra_change_page_action_info() {
 }
 
 /**
- * Callback function for rule commerce_rules_extra_change_pane.
+ * Callback function for rule commerce_rules_extra_change_page.
  *
- * Store in global variables all properties changes for a pane.
+ * Store in global variables all properties changes for a page.
  */
 function commerce_rules_extra_change_page($page_id, $title, $help, $submit_value) {
   global $page_changes;
-  if (!$page_changes)
+  if (!$page_changes) {
     $page_changes = array();
+  }
   $page_changes[$page_id] = array(
     'title' => $title,
     'help' => $help,
