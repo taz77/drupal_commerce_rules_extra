@@ -9,17 +9,17 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_rules_condition_has_terms_condition_info() {
-  return array(
+  $info = array(
     'group' => t('Commerce Line Item'),
     'label' => t('Line item product has term(s)'),
     'parameter' => array(
-    'line_item' => array(
-      'type' => 'commerce_line_item',
-      'label' => t('Commere Line Item'),
+      'line_item' => array(
+        'type' => 'commerce_line_item',
+        'label' => t('Commere Line Item'),
+      ),
     ),
-    ) +
-    commerce_rules_extra_terms_parameters()
   );
+  return $info + commerce_rules_extra_terms_parameters();
 }
 
 /**
