@@ -99,8 +99,7 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
 }
 
 /**
- * Callback function for Has Terms condition.
- * Check if a line item has a product with certain term ids.
+ * Callback function for Has Terms condition to check if a line item has term ids.
  *
  * @param object $line_item
  *            A commerce_line_item containing the product being checked.
@@ -108,9 +107,11 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  *            A string containing the machine name of a Taxonomy reference field.
  * @param array $term_ids
  *            An array containing Taxonomy term ids to check for.
- * @param boolean $require_all
- *            A boolean variable indicating whether or not all term ids must be present.            
- * @return boolean 
+ * @param bool $product_display
+ *            A boolean variable indicating whether or not to search display.
+ * @param string $term_operator
+ *            Operator for comparing terms
+ * @return bool
  * TRUE if the product has the term applied to it on the field $voc_name otherwise FALSE.
  */
 function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $term_operator) {
@@ -120,10 +121,10 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
     $product_terms = array();
     if ($product_display) {
       if (empty($line_item->line_item_id) && (isset($product->display_context))) {
-        $line_item->data["context"] = $product->display_context;
+        $line_item->data['context'] = $product->display_context;
       }
       $node = commerce_rules_extra_node_from_line_item($line_item);
-      $node = $node["referencing_node"];
+      $node = $node['referencing_node'];
       if (null == $node)
         return false;
       $query = db_select('taxonomy_index', 't')->fields('t', array(
@@ -154,7 +155,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
       }
       if ($term_operator == 'IAO') {
         foreach ($term_ids as $term_id) {
-          // If ther term reference field is set to allow more than one term.
+          // If their term reference field is set to allow more than one term.
           // $product_terms will be an array.
           $has_term = FALSE;
           foreach ($product_terms as $product_term) {
