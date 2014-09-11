@@ -34,23 +34,23 @@ function commerce_rules_extra_rules_condition_terms_comparison_condition_info() 
 
 /**
  * Callback function for the Terms Comparison condition.
+ * 
  * Check if a line item's product and another entity both reference the same term id.
  *
  * @param object $line_item
- *   A commerce_line_item containing the product being checked.
+ *    A commerce_line_item containing the product being checked.
  * @param string $voc_name
- *   A string containing the machine name of a Taxonomy reference field.
- * @param integer $entity
- *   The entity to be compared (e.g. site:current-user:your-field:tid).
- * @return boolean
- *   TRUE if the product and entity have matching terms in the specified field otherwise FALSE.
+ *    A string containing the machine name of a Taxonomy reference field.
+ * @param int $entity
+ *    The entity to be compared (e.g. site:current-user:your-field:tid).
+ * 
+ * @return bool
+ *    TRUE if the product and entity have matching terms in the specified field otherwise FALSE.
  */
 function commerce_rules_extra_rules_condition_terms_comparison($line_item, $voc_name, $entity) {
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
-
-
     $product_terms = array();
     foreach (commerce_rules_extra_get_fields_for_vocabulary($voc_name) as $field) {
       if (isset($product->$field)) {

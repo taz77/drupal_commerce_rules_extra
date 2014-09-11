@@ -172,6 +172,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
           }
           // If we haven't returned FALSE already then TRUE must be the answer.
           return TRUE;
+
           break;
 
         case 'IOO':
@@ -194,6 +195,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
             }
           }
           return TRUE;
+          
           break;
       };
     }
