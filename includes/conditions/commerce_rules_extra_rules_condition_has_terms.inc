@@ -13,11 +13,11 @@ function commerce_rules_extra_rules_condition_has_terms_condition_info() {
     'group' => t('Commerce Line Item'),
     'label' => t('Line item product has term(s)'),
     'parameter' => array(
-      'line_item' => array(
-        'type' => 'commerce_line_item',
-        'label' => t('Commere Line Item'),
-      ),
-    ) + 
+    'line_item' => array(
+      'type' => 'commerce_line_item',
+      'label' => t('Commere Line Item'),
+    ),
+    ) +
     commerce_rules_extra_terms_parameters()
   );
 }
@@ -229,16 +229,15 @@ function commerce_rules_extra_term_fields_optional_options_list() {
  */
 function commerce_rules_extra_term_fields_options_list() {
   $field_options_list = array();
-  
+
   /**
    * Unsure what this does.  The activity was commented out no reason to run the foreach. Needs testing?
-   $fields = field_read_fields(array('type' => 'taxonomy_term_reference'));
-   if (!empty($fields)) {
+    $fields = field_read_fields(array('type' => 'taxonomy_term_reference'));
+    if (!empty($fields)) {
     foreach ($fields as $key => $value) {
-      // $field_options_list [$key] = $key;
+    // $field_options_list [$key] = $key;
     }
-  }*/
-
+    } */
   $vocs = taxonomy_get_vocabularies();
   foreach ($vocs as $voc) {
     $field_options_list[$voc->machine_name] = $voc->name;
@@ -271,8 +270,9 @@ function commerce_rules_extra_ajax_load_terms($form, $form_state) {
  *         the term. Term names are keyed by term id.
  */
 function commerce_rules_extra_get_terms_list($voc_name) {
-  if (empty($voc_name))
+  if (empty($voc_name)) {
     return array();
+  }
   // $field = field_read_field($voc_name);
   // $vocabulary = taxonomy_vocabulary_machine_name_load($field ['settings'] ['allowed_values'] [0] ['vocabulary']);
   // $terms = taxonomy_get_tree($vocabulary->vid);
