@@ -22,15 +22,15 @@ function commerce_rules_extra_process_checkout_page_event_info() {
  */
 function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages) {
 
-  global $page_changes;
-  if (!$page_changes) {
-    $page_changes = array();
+  global $_commerce_rules_extra_page_changes;
+  if (!$_commerce_rules_extra_page_changes) {
+    $_commerce_rules_extra_page_changes = array();
   }
   $urls = array('checkout', 'system');
   drupal_alter('checkout_page_urls', $urls);
   if (in_array(arg(0), $urls)) {
     rules_invoke_all('commerce_rules_extra_process_checkout_page');
-    foreach ($page_changes as $page_id => $changes) {
+    foreach ($_commerce_rules_extra_page_changes as $page_id => $changes) {
       if ($changes['title'] != '') {
         $checkout_pages[$page_id]['title'] = $changes['title'];
       }

@@ -51,11 +51,11 @@ function commerce_rules_extra_change_page_action_info() {
  * Store in global variables all properties changes for a page.
  */
 function commerce_rules_extra_change_page($page_id, $title, $help, $submit_value) {
-  global $page_changes;
-  if (!$page_changes) {
-    $page_changes = array();
+  global $_commerce_rules_extra_page_changes;
+  if (!$_commerce_rules_extra_page_changes) {
+    $_commerce_rules_extra_page_changes = array();
   }
-  $page_changes[$page_id] = array(
+  $_commerce_rules_extra_page_changes[$page_id] = array(
     'title' => $title,
     'help' => $help,
     'submit_value' => $submit_value,
