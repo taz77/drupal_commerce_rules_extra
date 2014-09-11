@@ -83,7 +83,7 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
 /**
  * Callback function for Has Terms condition to check if a line item has term ids.
  */
-function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids = array(), $product_display, $term_operator) {
+function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $term_operator) {
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
@@ -219,8 +219,7 @@ function commerce_rules_extra_ajax_load_terms($form, $form_state) {
 }
 
 /**
- * Function to take the machine name of a Taxonomy reference field and retrieves the terms
- * for the associated vocabulary.
+ * Function to take the machine name of a Taxonomy reference field and retrieves the terms.
  *
  * @param string $voc_name
  *            A string containing the machine name of a Taxonomy reference field.
@@ -247,6 +246,7 @@ function commerce_rules_extra_get_terms_list($voc_name) {
 
 /**
  * Function creates an empty option list.
+ *
  * An empty options list so that Rules conditions that need manually populated
  * options sets will have their form variables populated correctly.
  */
