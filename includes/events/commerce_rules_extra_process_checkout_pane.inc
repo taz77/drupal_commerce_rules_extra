@@ -27,9 +27,9 @@ function commerce_rules_extra_process_checkout_pane_event_info() {
  * Invoke all rules for process_checkout_pane event and alter panes properties returned by rules.
  */
 function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes) {
-  global $pane_changes;
-  if (!$pane_changes) {
-    $pane_changes = array();
+  global $_commerce_rules_extra_pane_changes;
+  if (!$_commerce_rules_extra_pane_changes) {
+    $_commerce_rules_extra_pane_changes = array();
   }
   $urls = array('checkout', 'system');
   drupal_alter('checkout_pane_urls', $urls);
@@ -39,7 +39,7 @@ function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes
       $commerce_order = commerce_cart_get_properties(FALSE, array(), 'current_cart_order');
     }
     rules_invoke_all('commerce_rules_extra_process_checkout_pane', $commerce_order);
-    foreach ($pane_changes as $pane_id => $changes) {
+    foreach ($_commerce_rules_extra_pane_changes as $pane_id => $changes) {
       $checkout_panes[$pane_id]['enabled'] = $changes['enabled'];
       if ($changes['weight'] != '') {
         $checkout_panes[$pane_id]['weight'] = $changes['weight'];

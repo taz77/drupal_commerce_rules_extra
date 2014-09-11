@@ -63,28 +63,29 @@ function commerce_rules_extra_get_panes() {
  * Store in global variables all properties changes for a pane.
  */
 function commerce_rules_extra_change_pane($pane_id, $page_id, $enabled, $weight) {
-  global $pane_changes;
-  if (!$pane_changes)
-    $pane_changes = array();
-  $pane_changes[$pane_id] = array(
-    'page_id' => ($enabled ? $page_id : 'disabled'),
-    'enabled' => $enabled,
-    'weight' => $weight,
-  );
+  global $_commerce_rules_extra_pane_changes;
+  if (!$_commerce_rules_extra_pane_changes) {
+    $_commerce_rules_extra_pane_changes = array();
+    $_commerce_rules_extra_pane_changes[$pane_id] = array(
+      'page_id' => ($enabled ? $page_id : 'disabled'),
+      'enabled' => $enabled,
+      'weight' => $weight,
+    );
+  }
 }
 
 /**
  * Helper function to Show/hide panes when viewing command.
  */
 function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
-  global $pane_changes;
-  if (!$pane_changes)
-    $pane_changes = array();
-
+  global $_commerce_rules_extra_pane_changes;
+  if (!$_commerce_rules_extra_pane_changes) {
+    $_commerce_rules_extra_pane_changes = array();
+  }
   $commerce_order = $infos["#entity"];
   rules_invoke_all('process_checkout_pane', $commerce_order);
 
-  foreach ($pane_changes as $pane_id => $changes) {
+  foreach ($_commerce_rules_extra_pane_changes as $pane_id => $changes) {
     $field_name = variable_get('commerce_' . $pane_id . '_field', '');
     if (empty($field_name)) {
       $field_name = $pane_id;
