@@ -4,8 +4,12 @@
  * @file
  * Rules condition Compare Product Quantity.
  */
+
+/**
+ * Helper function to return the condition info to the main module.
+ */
 function commerce_rules_extra_compare_product_quantity_condition_info() {
-  return array(
+  $info1 = array(
     'group' => t('Commerce Order'),
     'label' => t('Total quantity of selected product comparison'),
     'parameter' => array(
@@ -14,39 +18,40 @@ function commerce_rules_extra_compare_product_quantity_condition_info() {
         'label' => t('Order'),
         'description' => t('The order whose product line item quantities should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
       ),
-    ) +
-    commerce_rules_extra_terms_parameters(FALSE) +
-    array(
-      'product_type' => array(
-        'type' => 'list<integer>',
-        'label' => t('Product Type(s)'),
-        'description' => t('The type(s) of the product to look for on the order.'),
-        'options list' => 'commerce_rules_extra_product_type_options_list',
-        'restriction' => 'input',
-        'optional' => TRUE,
-      ),
-      'exclude' => array(
-        'type' => 'boolean',
-        'label' => t('Exclude content_type'),
-        'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated.'),
-        'restriction' => 'input',
-      ),
-      'operator' => array(
-        'type' => 'text',
-        'label' => t('Operator'),
-        'description' => t('The comparison operator to use against the total number of products matching the term on the order.'),
-        'default value' => '>=',
-        'options list' => 'commerce_numeric_comparison_operator_options_list',
-        'restriction' => 'input',
-      ),
-      'value' => array(
-        'type' => 'integer',
-        'label' => t('Quantity'),
-        'default value' => 1,
-        'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
-      ),
-    )
+    ),
   );
+  $info2 = array(
+    'product_type' => array(
+      'type' => 'list<integer>',
+      'label' => t('Product Type(s)'),
+      'description' => t('The type(s) of the product to look for on the order.'),
+      'options list' => 'commerce_rules_extra_product_type_options_list',
+      'restriction' => 'input',
+      'optional' => TRUE,
+    ),
+    'exclude' => array(
+      'type' => 'boolean',
+      'label' => t('Exclude content_type'),
+      'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated.'),
+      'restriction' => 'input',
+    ),
+    'operator' => array(
+      'type' => 'text',
+      'label' => t('Operator'),
+      'description' => t('The comparison operator to use against the total number of products matching the term on the order.'),
+      'default value' => '>=',
+      'options list' => 'commerce_numeric_comparison_operator_options_list',
+      'restriction' => 'input',
+    ),
+    'value' => array(
+      'type' => 'integer',
+      'label' => t('Quantity'),
+      'default value' => 1,
+      'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
+    ),
+  );
+
+  return $info1 + commerce_rules_extra_terms_parameters(FALSE) + $info2;
 }
 
 /**
@@ -61,6 +66,7 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
 
 /**
  * Callback function for Compare Product Quantity.
+ * 
  * Calculates the quantity of products in an order that have the term $term_id
  * and compares it to a given value.
  *
@@ -68,11 +74,11 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
  *            A commerce_order containing the products being checked.
  * @param string $voc_name
  *            A string containing the machine name of a Taxonomy reference field.
- * @param integer $term_id
+ * @param int $term_id
  *            An integer corresponding to a Taxonomy term id.
  * @param string $operator
  *            A string containing the operator used comparing the calculated quantity to $value.
- * @param integer $value
+ * @param int $value
  *            An integer to compare to the quantity of products containing $term_id in
  *            the $voc_name field.
  *            
@@ -83,6 +89,9 @@ function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_
   return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, "quantity");
 }
 
+/**
+ * Callback function for Commerce Rules Extra Compare Product.
+ */
 function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, $type = "quantity") {
   $quantity = 0;
   $voc_name = trim($voc_name);
@@ -141,6 +150,9 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
   return FALSE;
 }
 
+/**
+ * Callback function to create empty products option list.
+ */
 function commerce_rules_extra_product_type_options_list() {
   return array('' => '<' . t('none') . '>') + commerce_product_type_options_list();
 }
