@@ -56,7 +56,7 @@ function commerce_rules_extra_terms_parameters($required = true) {
       'options list' => 'commerce_rules_extra_get_operators',
       'restriction' => 'input',
       'optional' => !$required,
-    )
+    ),
   );
 }
 
@@ -206,9 +206,7 @@ function commerce_rules_extra_get_fields_for_vocabulary($voc) {
   $fields = &drupal_static(__FUNCTION__);
 
   if (!isset($fields)) {
-    $termfields = field_read_fields(array(
-      'type' => 'taxonomy_term_reference'
-    ));
+    $termfields = field_read_fields(array('type' => 'taxonomy_term_reference'));
     foreach ($termfields as $field_name => $infos) {
       $fields[$infos['settings']['allowed_values'][0]['vocabulary']][] = $field_name;
     }
@@ -252,9 +250,7 @@ function commerce_rules_extra_term_fields_options_list() {
 function commerce_rules_extra_ajax_load_terms($form, $form_state) {
   return array(
     '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_insert(NULL, drupal_render($form['parameter']['term_id']['settings']))
-    )
+    '#commands' => array(ajax_command_insert(NULL, drupal_render($form['parameter']['term_id']['settings']))),
   );
 }
 

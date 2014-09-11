@@ -16,8 +16,8 @@ function commerce_rules_extra_process_checkout_pane_event_info() {
       'commerce_order' => array(
         'type' => 'commerce_order',
         'label' => t('current order'),
-      )
-    )
+      ),
+    ),
   );
 }
 

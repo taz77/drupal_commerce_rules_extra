@@ -22,7 +22,7 @@ function commerce_rules_extra_node_from_line_item_action_info() {
       'referencing_node' => array(
         'type' => 'node',
         'label' => t('Referencing node'),
-      )
+      ),
     ),
   );
 }

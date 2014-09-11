@@ -28,8 +28,8 @@ function commerce_rules_extra_line_item_quantity_changed_event_info() {
       'commerce_line_item_old_quantity' => array(
         'label' => t('Commerce item quantity before changes'),
         'type' => 'decimal',
-      )
-    )
+      ),
+    ),
   );
 }
 

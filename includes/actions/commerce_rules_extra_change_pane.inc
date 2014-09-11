@@ -38,8 +38,8 @@ function commerce_rules_extra_change_pane_action_info() {
         'description' => t('Set to empty to keep pre-defined weight'),
         'optional' => TRUE,
         'restriction' => 'input',
-      )
-    )
+      ),
+    ),
   );
 }
 
@@ -93,7 +93,7 @@ function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
     if (!array_key_exists($field_name, $infos)) {
       continue;
     }
-    if ($changes ['enabled'] == false) {
+    if ($changes['enabled'] == false) {
       unset($infos[$field_name]);
     }
     else if ($changes['weight'] != '') {

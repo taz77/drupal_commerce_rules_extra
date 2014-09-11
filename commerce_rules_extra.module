@@ -46,6 +46,6 @@ function commerce_rules_extra_theme($existing, $type, $theme, $path) {
       'template' => 'form--cre_condition',
       'render element' => 'form',
       'path' => $path . '/templates',
-    )
+    ),
   );
 }

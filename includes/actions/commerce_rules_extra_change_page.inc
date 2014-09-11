@@ -40,8 +40,8 @@ function commerce_rules_extra_change_page_action_info() {
         'description' => t('Set the value of the submit button.'),
         'optional' => TRUE,
         'restriction' => 'input',
-      )
-    )
+      ),
+    ),
   );
 }
 

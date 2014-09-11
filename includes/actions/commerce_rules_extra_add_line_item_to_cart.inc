@@ -19,13 +19,12 @@ function commerce_rules_extra_add_line_item_to_cart_action_info() {
       'line_item' => array(
         'type' => 'commerce_line_item',
         'label' => t('Commerce Line Item'),
-      )
+      ),
     ),
     'group' => t('Commerce Line Item'),
     'base' => 'commerce_rules_extra_add_line_item_to_cart_action',
     'callbacks' => array('execute' => 'commerce_rules_extra_add_line_item_to_cart_action'),
-    )
-  ;
+    );
 }
 
 /**
