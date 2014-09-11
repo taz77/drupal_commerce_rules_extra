@@ -10,13 +10,12 @@ REQUIREMENTS
 
 INSTALLATION INSTRUCTIONS
 -------------------------
-
-
-
-
-
-
-
+1.  Copy the files included in the tarball into a directory named "commerce_rules_extra" in
+    your Drupal sites/all/modules/ directory.
+2.  Login as site administrator.
+3.  Enable the Commerce Rules Extra module on the Administer -> Modules page 
+    (Under the "Commerce (contrib)" category).
+4.  Build fantastic rules to generate better sales.
 
 This module currently provides the following rules components:
 
