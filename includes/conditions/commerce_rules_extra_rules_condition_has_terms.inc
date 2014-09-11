@@ -110,11 +110,12 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  * @param bool $product_display
  *            A boolean variable indicating whether or not to search display.
  * @param string $term_operator
- *            Operator for comparing terms
+ *            Operator for comparing terms.
+ * 
  * @return bool
- * TRUE if the product has the term applied to it on the field $voc_name otherwise FALSE.
+ *            TRUE if the product has the term applied to it on the field $voc_name otherwise FALSE.
  */
-function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids, $product_display, $term_operator) {
+function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids = array(), $product_display, $term_operator) {
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
@@ -125,8 +126,9 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
       }
       $node = commerce_rules_extra_node_from_line_item($line_item);
       $node = $node['referencing_node'];
-      if (null == $node)
-        return false;
+      if (NULL == $node) {
+        return FALSE;
+      }
       $query = db_select('taxonomy_index', 't')->fields('t', array(
           'tid'
         ))->condition('nid', $node->nid, '=');
@@ -143,10 +145,12 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
         }
       }
     }
-    if ($term_operator == 'IE')
+    if ($term_operator == 'IE') {
       return empty($product_terms);
-    if ($term_operator == 'INE')
+    }
+    if ($term_operator == 'INE') {
       return !empty($product_terms);
+    }
     if (!empty($product_terms)) {
 
       if (!is_array($product_terms)) {
