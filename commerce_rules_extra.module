@@ -4,6 +4,7 @@
  * @file
  * Main module file for Commerce Rules Extra.
  */
+
 // Include all events, actions and conditions files.
 global $_commerce_rules_extra_cre_includes;
 $_commerce_rules_extra_cre_includes = array();
