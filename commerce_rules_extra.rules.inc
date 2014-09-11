@@ -7,7 +7,7 @@
 
 /**
  * Implements hook_rules_event_info().
- * */
+ */
 function commerce_rules_extra_rules_event_info() {
   global $_commerce_rules_extra_cre_includes;
   foreach ($_commerce_rules_extra_cre_includes['events'] as $file) {

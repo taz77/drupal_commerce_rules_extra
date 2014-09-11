@@ -82,20 +82,6 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
 
 /**
  * Callback function for Has Terms condition to check if a line item has term ids.
- *
- * @param object $line_item
- *            A commerce_line_item containing the product being checked.
- * @param string $voc_name
- *            A string containing the machine name of a Taxonomy reference field.
- * @param array $term_ids
- *            An array containing Taxonomy term ids to check for.
- * @param bool $product_display
- *            A boolean variable indicating whether or not to search display.
- * @param string $term_operator
- *            Operator for comparing terms.
- *
- * @return bool
- *            TRUE if the product has the term applied to it on the field $voc_name otherwise FALSE.
  */
 function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $term_ids = array(), $product_display, $term_operator) {
   if (!empty($line_item)) {
@@ -177,7 +163,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
             }
           }
           return TRUE;
-          
+
           break;
       };
     }

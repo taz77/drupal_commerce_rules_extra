@@ -114,27 +114,27 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
     case '<':
       return $quantity < $value;
 
-      break;
+    break;
 
     case '<=':
       return $quantity <= $value;
 
-      break;
+    break;
 
     case '=':
       return $quantity == $value;
 
-      break;
+    break;
 
     case '>=':
       return $quantity >= $value;
 
-      break;
+    break;
 
     case '>':
       return $quantity > $value;
 
-      break;
+    break;
   }
 
   return FALSE;
