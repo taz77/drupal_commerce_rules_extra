@@ -77,24 +77,6 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
   $form['parameter']['term_id']['settings']['term_id']['#prefix'] = '<div id="cre_terms" style="float:left; margin-left:10px;">';
   $form['parameter']['term_id']['settings']['term_id']['#options'] = (empty($element->settings['voc_name']) ? array() : commerce_rules_extra_get_terms_list($element->settings['voc_name']));
   $form['parameter']['term_id']['settings']['term_id']['#suffix'] = '</div>';
-  /*
-    $form['parameter']['term_id']['#states'] = array (
-    'invisible' => array (
-    ':input[name="parameter[voc_name][settings][voc_name]"]' => array (
-    'value' => ''
-    )
-    )
-    );
-    $form ['parameter'] ['term_id']['settings']['term_id'] ['#states'] = array (
-    'required' => array (
-    ':input[name="parameter[term_operator][settings][term_operator]"]' => array (
-    array('value' => 'IOO'),
-    array ('value' => 'IAO'),
-    array ('value' => 'INO'),
-    )
-    )
-    );
-   */
   $form["#theme"] = 'form--cre_condition';
 }
 
@@ -232,15 +214,6 @@ function commerce_rules_extra_term_fields_optional_options_list() {
  */
 function commerce_rules_extra_term_fields_options_list() {
   $field_options_list = array();
-
-  /**
-   * Unsure what this does.  The activity was commented out no reason to run the foreach. Needs testing?
-    $fields = field_read_fields(array('type' => 'taxonomy_term_reference'));
-    if (!empty($fields)) {
-    foreach ($fields as $key => $value) {
-    // $field_options_list [$key] = $key;
-    }
-    } */
   $vocs = taxonomy_get_vocabularies();
   foreach ($vocs as $voc) {
     $field_options_list[$voc->machine_name] = $voc->name;
@@ -274,9 +247,6 @@ function commerce_rules_extra_get_terms_list($voc_name) {
   if (empty($voc_name)) {
     return array();
   }
-  // $field = field_read_field($voc_name);
-  // $vocabulary = taxonomy_vocabulary_machine_name_load($field ['settings'] ['allowed_values'] [0] ['vocabulary']);
-  // $terms = taxonomy_get_tree($vocabulary->vid);
   $voc = taxonomy_vocabulary_machine_name_load($voc_name);
   $terms = taxonomy_get_tree($voc->vid);
   $term_list = array();
