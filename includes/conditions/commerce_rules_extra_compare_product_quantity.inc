@@ -56,7 +56,7 @@ function commerce_rules_extra_compare_product_quantity_condition_info() {
 
 /**
  * Implements hook_form_alter().
- * 
+ *
  * Alters the form for commerce_rules_extra_compare_termed_product_quantity so that we
  * can require the term reference field be selected first so that the term_id list can be populated.
  */
@@ -66,24 +66,9 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
 
 /**
  * Callback function for Compare Product Quantity.
- * 
+ *
  * Calculates the quantity of products in an order that have the term $term_id
  * and compares it to a given value.
- *
- * @param object $order
- *            A commerce_order containing the products being checked.
- * @param string $voc_name
- *            A string containing the machine name of a Taxonomy reference field.
- * @param int $term_id
- *            An integer corresponding to a Taxonomy term id.
- * @param string $operator
- *            A string containing the operator used comparing the calculated quantity to $value.
- * @param int $value
- *            An integer to compare to the quantity of products containing $term_id in
- *            the $voc_name field.
- *            
- * @return The result of evaluating the calculated quantity against $value with the
- *         specified operator.
  */
 function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value) {
   return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, "quantity");
@@ -128,22 +113,27 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
   switch ($operator) {
     case '<' :
       return $quantity < $value;
+      
       break;
 
     case '<=' :
       return $quantity <= $value;
+      
       break;
 
     case '=' :
       return $quantity == $value;
+      
       break;
 
     case '>=' :
       return $quantity >= $value;
+      
       break;
 
     case '>' :
       return $quantity > $value;
+      
       break;
   }
 

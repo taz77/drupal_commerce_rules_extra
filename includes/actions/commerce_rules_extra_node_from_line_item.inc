@@ -16,7 +16,7 @@ function commerce_rules_extra_node_from_line_item_action_info() {
       'line_item' => array(
         'type' => 'commerce_line_item',
         'label' => t('Commere Line Item'),
-      )
+      ),
     ),
     'provides' => array(
       'referencing_node' => array(

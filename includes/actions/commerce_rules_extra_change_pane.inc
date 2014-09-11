@@ -52,7 +52,7 @@ function commerce_rules_extra_get_panes() {
   $panes = commerce_checkout_panes();
   $return = array();
   foreach ($panes as $pane_id => $pane) {
-    $return [$pane_id] = $pane ['name'];
+    $return[$pane_id] = $pane['name'];
   }
   return $return;
 }
@@ -82,7 +82,7 @@ function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
   if (!$_commerce_rules_extra_pane_changes) {
     $_commerce_rules_extra_pane_changes = array();
   }
-  $commerce_order = $infos["#entity"];
+  $commerce_order = $infos['#entity'];
   rules_invoke_all('process_checkout_pane', $commerce_order);
 
   foreach ($_commerce_rules_extra_pane_changes as $pane_id => $changes) {

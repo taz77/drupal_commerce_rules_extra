@@ -24,7 +24,7 @@ function commerce_rules_extra_add_line_item_to_cart_action_info() {
     'group' => t('Commerce Line Item'),
     'base' => 'commerce_rules_extra_add_line_item_to_cart_action',
     'callbacks' => array('execute' => 'commerce_rules_extra_add_line_item_to_cart_action'),
-    );
+  );
 }
 
 /**
