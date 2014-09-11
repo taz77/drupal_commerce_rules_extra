@@ -111,7 +111,7 @@ function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$for
  *            A boolean variable indicating whether or not to search display.
  * @param string $term_operator
  *            Operator for comparing terms.
- * 
+ *
  * @return bool
  *            TRUE if the product has the term applied to it on the field $voc_name otherwise FALSE.
  */
@@ -129,9 +129,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
       if (NULL == $node) {
         return FALSE;
       }
-      $query = db_select('taxonomy_index', 't')->fields('t', array(
-          'tid'
-        ))->condition('nid', $node->nid, '=');
+      $query = db_select('taxonomy_index', 't')->fields('t', array('tid'))->condition('nid', $node->nid, '=');
       $results = $query->execute();
       foreach ($results as $t) {
         $product_terms[] = $t;
@@ -157,45 +155,47 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
         $t = $product_terms;
         $product_terms = array(0 => $t);
       }
-      if ($term_operator == 'IAO') {
-        foreach ($term_ids as $term_id) {
-          // If their term reference field is set to allow more than one term.
-          // $product_terms will be an array.
-          $has_term = FALSE;
-          foreach ($product_terms as $product_term) {
-            if ($product_term->tid == $term_id) {
-              $has_term = TRUE;
+      switch ($term_operator) {
+        case 'IAO':
+          foreach ($term_ids as $term_id) {
+            // If their term reference field is set to allow more than one term.
+            // $product_terms will be an array.
+            $has_term = FALSE;
+            foreach ($product_terms as $product_term) {
+              if ($product_term->tid == $term_id) {
+                $has_term = TRUE;
+              }
             }
-          }
-          if (!$has_term) {
-            return FALSE;
-          }
-        }
-
-        // If we haven't returned FALSE already then TRUE must be the answer.
-        return TRUE;
-      }
-      else if ($term_operator == 'IOO') {
-        foreach ($term_ids as $term_id) {
-          foreach ($product_terms as $product_term) {
-            if ($product_term->tid == $term_id) {
-              return TRUE;
-            }
-          }
-        }
-      }
-      else if ($term_operator == 'INO') {
-        foreach ($term_ids as $term_id) {
-          $has_term = FALSE;
-          foreach ($product_terms as $product_term) {
-            if ($product_term->tid == $term_id) {
+            if (!$has_term) {
               return FALSE;
             }
           }
-        }
+          // If we haven't returned FALSE already then TRUE must be the answer.
+          return TRUE;
+          break;
 
-        return TRUE;
-      }
+        case 'IOO':
+          foreach ($term_ids as $term_id) {
+            foreach ($product_terms as $product_term) {
+              if ($product_term->tid == $term_id) {
+                return TRUE;
+              }
+            }
+          }
+          break;
+
+        case 'INO':
+          foreach ($term_ids as $term_id) {
+            $has_term = FALSE;
+            foreach ($product_terms as $product_term) {
+              if ($product_term->tid == $term_id) {
+                return FALSE;
+              }
+            }
+          }
+          return TRUE;
+          break;
+      };
     }
   }
 
