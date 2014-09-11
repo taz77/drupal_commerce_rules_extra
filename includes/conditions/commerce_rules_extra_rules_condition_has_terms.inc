@@ -25,7 +25,7 @@ function commerce_rules_extra_rules_condition_has_terms_condition_info() {
 /**
  * Creates a list of term parameters.
  */
-function commerce_rules_extra_terms_parameters($required = true) {
+function commerce_rules_extra_terms_parameters($required = TRUE) {
   return array(
     'voc_name' => array(
       'type' => 'text',
@@ -62,11 +62,9 @@ function commerce_rules_extra_terms_parameters($required = true) {
 
 /**
  * Implements hook_form_alter().
- * Alters the form for commerce_rules_extra_rules_condition_has_terms
- * so that we can require the term reference field be selected first so that
- * the term_ids list can be populated.
  */
 function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
+  // Require the term reference field be selected first so that the term_ids list can be populated.
   // Change the list parameter to be not editable any more.
   $form['parameter']['voc_name']['settings']['voc_name']['#ajax'] = array(
     'event' => 'change',
