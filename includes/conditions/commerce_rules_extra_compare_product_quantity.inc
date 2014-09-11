@@ -111,29 +111,29 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
 
   // Make a quantity comparison based on the operator.
   switch ($operator) {
-    case '<' :
+    case '<':
       return $quantity < $value;
-      
+
       break;
 
-    case '<=' :
+    case '<=':
       return $quantity <= $value;
-      
+
       break;
 
-    case '=' :
+    case '=':
       return $quantity == $value;
-      
+
       break;
 
-    case '>=' :
+    case '>=':
       return $quantity >= $value;
-      
+
       break;
 
-    case '>' :
+    case '>':
       return $quantity > $value;
-      
+
       break;
   }
 

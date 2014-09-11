@@ -34,7 +34,7 @@ function commerce_rules_extra_rules_condition_terms_comparison_condition_info() 
 
 /**
  * Callback function for the Terms Comparison condition.
- * 
+ *
  * Check if a line item's product and another entity both reference the same term id.
  *
  * @param object $line_item
@@ -43,7 +43,7 @@ function commerce_rules_extra_rules_condition_terms_comparison_condition_info() 
  *    A string containing the machine name of a Taxonomy reference field.
  * @param int $entity
  *    The entity to be compared (e.g. site:current-user:your-field:tid).
- * 
+ *
  * @return bool
  *    TRUE if the product and entity have matching terms in the specified field otherwise FALSE.
  */

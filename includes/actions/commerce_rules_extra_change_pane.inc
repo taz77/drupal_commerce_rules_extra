@@ -93,10 +93,10 @@ function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
     if (!array_key_exists($field_name, $infos)) {
       continue;
     }
-    if ($changes['enabled'] == false) {
+    if ($changes['enabled'] == FALSE) {
       unset($infos[$field_name]);
     }
-    else if ($changes['weight'] != '') {
+    elseif ($changes['weight'] != '') {
       $infos[$field_name]['#weight'] = $changes['weight'];
     }
   }
