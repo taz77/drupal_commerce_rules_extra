@@ -35,3 +35,17 @@ function commerce_rules_extra_get_quantity_property($order, array $options, $nam
   $wrapper = entity_metadata_wrapper('commerce_order', $order);
   return commerce_line_items_quantity($wrapper->commerce_line_items, commerce_product_line_item_types());
 }
+
+/**
+ * Implements hook_theme().
+ */
+
+function commerce_rules_extra_theme($existing, $type, $theme, $path) {
+  return array(
+    'form--cre_condition' => array(
+      'template' => 'form--cre_condition',
+      'render element' => 'form',
+      'path' => $path . '/templates',
+    )
+  );
+}
