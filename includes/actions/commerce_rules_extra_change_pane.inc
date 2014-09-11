@@ -90,8 +90,9 @@ function commerce_rules_extra_commerce_order_view_alter(&$infos, $entity_type) {
     if (empty($field_name)) {
       $field_name = $pane_id;
     }
-    if (!array_key_exists($field_name, $infos))
+    if (!array_key_exists($field_name, $infos)) {
       continue;
+    }
     if ($changes ['enabled'] == false) {
       unset($infos[$field_name]);
     }
