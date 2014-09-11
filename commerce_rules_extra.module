@@ -6,12 +6,12 @@
  */
 
 // Include all events, actions and conditions files
-global $cre_includes;
-$cre_includes = array();
+global $_commerce_rules_extra_cre_includes;
+$_commerce_rules_extra_cre_includes = array();
 $dir = drupal_get_path('module', 'commerce_rules_extra');
 foreach (array('events', 'conditions', 'actions') as $subdir) {
-  $cre_includes [$subdir] = glob($dir . '/includes/' . $subdir . '/*.inc', GLOB_NOSORT);
-  foreach ($cre_includes [$subdir] as $include) {
+  $_commerce_rules_extra_cre_includes[$subdir] = glob($dir . '/includes/' . $subdir . '/*.inc', GLOB_NOSORT);
+  foreach ($_commerce_rules_extra_cre_includes[$subdir] as $include) {
     include_once ($include);
   }
 }

@@ -6,11 +6,11 @@
  */
 
 /**
- *  Implements hook_rules_event_info()
+ * Implements hook_rules_event_info().
  * */
 function commerce_rules_extra_rules_event_info() {
-  global $cre_includes;
-  foreach ($cre_includes['events'] as $file) {
+  global $_commerce_rules_extra_cre_includes;
+  foreach ($_commerce_rules_extra_cre_includes['events'] as $file) {
     $rule = basename($file, '.inc');
     $f = $rule . '_event_info';
     $events[$rule] = $f();
@@ -20,11 +20,11 @@ function commerce_rules_extra_rules_event_info() {
 }
 
 /**
- * Implements hook_rules_conditions_info()
+ * Implements hook_rules_conditions_info().
  */
 function commerce_rules_extra_rules_condition_info() {
-  global $cre_includes;
-  foreach ($cre_includes['conditions'] as $file) {
+  global $_commerce_rules_extra_cre_includes;
+  foreach ($_commerce_rules_extra_cre_includes['conditions'] as $file) {
     $rule = basename($file, '.inc');
     $f = $rule . '_condition_info';
     $conditions[$rule] = $f();
@@ -37,9 +37,9 @@ function commerce_rules_extra_rules_condition_info() {
  * Implements hook_rules_action_info().
  */
 function commerce_rules_extra_rules_action_info() {
-  global $cre_includes;
+  global $_commerce_rules_extra_cre_includes;
   $actions = array();
-  foreach ($cre_includes['actions'] as $file) {
+  foreach ($_commerce_rules_extra_cre_includes['actions'] as $file) {
     $rule = basename($file, '.inc');
     $f = $rule . '_action_info';
     $actions[$rule] = $f();
@@ -49,9 +49,9 @@ function commerce_rules_extra_rules_action_info() {
 }
 
 /**
- * Option list callback for commerce_rules_extra_change_pane
+ * Option list callback for commerce_rules_extra_change_pane.
  *
- * Return list of checkout pages
+ * Return list of checkout pages.
  */
 function commerce_rules_extra_get_pages() {
   $pages = commerce_checkout_pages();
