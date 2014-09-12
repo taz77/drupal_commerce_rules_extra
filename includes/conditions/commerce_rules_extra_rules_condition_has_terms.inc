@@ -19,45 +19,50 @@ function commerce_rules_extra_rules_condition_has_terms_condition_info() {
       ),
     ),
   );
-  return $info + commerce_rules_extra_terms_parameters();
+  $condition = array_merge_recursive($info, commerce_rules_extra_terms_parameters());
+  return $condition;
 }
 
 /**
  * Creates a list of term parameters.
  */
 function commerce_rules_extra_terms_parameters($required = TRUE) {
-  return array(
-    'voc_name' => array(
-      'type' => 'text',
-      'label' => t('Term Reference Field'),
-      'description' => t('The machine-name of the expected product\'s term reference field'),
-      'options list' => ($required ? 'commerce_rules_extra_term_fields_options_list' : 'commerce_rules_extra_term_fields_optional_options_list'),
-      'restriction' => 'input',
-      'optional' => !$required,
-    ),
-    'term_id' => array(
-      'type' => 'list<integer>',
-      'label' => t('Taxonomy Term(s)'),
-      'description' => t('The term(s) being checked for'),
-      'restriction' => 'input',
-      'options list' => 'commerce_rules_extra_empty_options_list',
-      'optional' => TRUE,
-    ),
-    'product_display' => array(
-      'type' => 'boolean',
-      'label' => t('Search terms in product display, not in product'),
-      'description' => t('If checked search will be made on product display.'),
-      'restriction' => 'input',
-    ),
-    'term_operator' => array(
-      'type' => 'text',
-      'label' => t('Operator'),
-      'description' => t('Selection mode of terms'),
-      'options list' => 'commerce_rules_extra_get_operators',
-      'restriction' => 'input',
-      'optional' => !$required,
+  $paramaters = array(
+    'parameter' => array(
+      'voc_name' => array(
+        'type' => 'text',
+        'label' => t('Term Reference Field'),
+        'description' => t('The machine-name of the expected product\'s term reference field'),
+        'options list' => ($required ? 'commerce_rules_extra_term_fields_options_list' : 'commerce_rules_extra_term_fields_optional_options_list'),
+        'restriction' => 'input',
+        'optional' => !$required,
+      ),
+      'term_id' => array(
+        'type' => 'list<integer>',
+        'label' => t('Taxonomy Term(s)'),
+        'description' => t('The term(s) being checked for'),
+        'restriction' => 'input',
+        'options list' => 'commerce_rules_extra_empty_options_list',
+        'optional' => TRUE,
+      ),
+      'product_display' => array(
+        'type' => 'boolean',
+        'label' => t('Search terms in product display, not in product'),
+        'description' => t('If checked search will be made on product display.'),
+        'restriction' => 'input',
+      ),
+      'term_operator' => array(
+        'type' => 'text',
+        'label' => t('Operator'),
+        'description' => t('Selection mode of terms'),
+        'options list' => 'commerce_rules_extra_get_operators',
+        'restriction' => 'input',
+        'optional' => !$required,
+      ),
     ),
   );
+  
+  return $paramaters;
 }
 
 /**

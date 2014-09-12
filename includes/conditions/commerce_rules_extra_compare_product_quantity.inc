@@ -9,7 +9,7 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_compare_product_quantity_condition_info() {
-  $info1 = array(
+  $info = array(
     'group' => t('Commerce Order'),
     'label' => t('Total quantity of selected product comparison'),
     'parameter' => array(
@@ -18,40 +18,38 @@ function commerce_rules_extra_compare_product_quantity_condition_info() {
         'label' => t('Order'),
         'description' => t('The order whose product line item quantities should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
       ),
+      'product_type' => array(
+        'type' => 'list<integer>',
+        'label' => t('Product Type(s)'),
+        'description' => t('The type(s) of the product to look for on the order.'),
+        'options list' => 'commerce_rules_extra_product_type_options_list',
+        'restriction' => 'input',
+        'optional' => TRUE,
+      ),
+      'exclude' => array(
+        'type' => 'boolean',
+        'label' => t('Exclude content_type'),
+        'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated.'),
+        'restriction' => 'input',
+      ),
+      'operator' => array(
+        'type' => 'text',
+        'label' => t('Operator'),
+        'description' => t('The comparison operator to use against the total number of products matching the term on the order.'),
+        'default value' => '>=',
+        'options list' => 'commerce_numeric_comparison_operator_options_list',
+        'restriction' => 'input',
+      ),
+      'value' => array(
+        'type' => 'integer',
+        'label' => t('Quantity'),
+        'default value' => 1,
+        'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
+      ),
     ),
   );
-  $info2 = array(
-    'product_type' => array(
-      'type' => 'list<integer>',
-      'label' => t('Product Type(s)'),
-      'description' => t('The type(s) of the product to look for on the order.'),
-      'options list' => 'commerce_rules_extra_product_type_options_list',
-      'restriction' => 'input',
-      'optional' => TRUE,
-    ),
-    'exclude' => array(
-      'type' => 'boolean',
-      'label' => t('Exclude content_type'),
-      'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated.'),
-      'restriction' => 'input',
-    ),
-    'operator' => array(
-      'type' => 'text',
-      'label' => t('Operator'),
-      'description' => t('The comparison operator to use against the total number of products matching the term on the order.'),
-      'default value' => '>=',
-      'options list' => 'commerce_numeric_comparison_operator_options_list',
-      'restriction' => 'input',
-    ),
-    'value' => array(
-      'type' => 'integer',
-      'label' => t('Quantity'),
-      'default value' => 1,
-      'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
-    ),
-  );
-
-  return $info1 + commerce_rules_extra_terms_parameters(FALSE) + $info2;
+  $condition = array_merge_recursive($info, commerce_rules_extra_terms_parameters(FALSE));
+  return $condition;
 }
 
 /**
@@ -114,27 +112,27 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
     case '<':
       return $quantity < $value;
 
-    break;
+      break;
 
     case '<=':
       return $quantity <= $value;
 
-    break;
+      break;
 
     case '=':
       return $quantity == $value;
 
-    break;
+      break;
 
     case '>=':
       return $quantity >= $value;
 
-    break;
+      break;
 
     case '>':
       return $quantity > $value;
 
-    break;
+      break;
   }
 
   return FALSE;
