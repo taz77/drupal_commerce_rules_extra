@@ -31,7 +31,7 @@ RULES EVENTS
 
 RULES CONDITIONS
 ----------------
-1. Line item product has terms : Test if a line item has a product with one or 
+1. Line item product has term(s) : Test if a line item has a product with one or 
    all specified terms.
 2. Total product with term quantity comparison : Total of products with term 
    and with a specified quantity.
@@ -47,3 +47,7 @@ RULES ACTIONS
    Button Text).
 3. Get the referencing node from the line item : Set the referenced node 
    (product display node) into a variable to be reused in another action.
+4. Add line item to cart: It would appear that this is unnecessary, but if you 
+   use the rules built in to add a line item to the order it is not updated 
+   properly, see issue #2108669: "Cannot attach line items to order via rules"
+   on Drupal.org.
