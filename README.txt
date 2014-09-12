@@ -1,6 +1,9 @@
 
 Commerce Rules Extra (CRE) module for Drupal 7.x.
-This module adds many useful rules for Drupal Commerce
+This module adds many useful rules for Drupal Commerce.
+
+Questions, problems, or issues?  Please file a ticket here:
+https://www.drupal.org/project/commerce_rules_extra
 
 REQUIREMENTS
 ------------
@@ -15,20 +18,32 @@ INSTALLATION INSTRUCTIONS
 2.  Login as site administrator.
 3.  Enable the Commerce Rules Extra module on the Administer -> Modules page 
     (Under the "Commerce (contrib)" category).
-4.  Build fantastic rules to generate better sales.
+4.  Build fantastic rules to generate better sales (see below for more details).
 
-This module currently provides the following rules components:
+== COMPONENT DETAILS ==
 
-Rules events
-Process checkout pane : Fires when a pane is processed during checkout process
-Line item quantity has changed (occurs when adding ou removing a product to cart and when a quantity has been modified in cart form).
-Rules conditions
-Line item product has term : Test if a line item has a product with a specified term
-Line item product has terms : Test if a line item has a product with one or all specified terms
-Total product with term quantity comparison : Total of products with term and with a specified quantity
-Total product of type quantity comparison : Total of products of specified type and with a specified quantity
-Total product of type amount comparison : Total of products of specified type and
-with a specified amount
-Rules actions
-Change pane properties : Change visibility, page, weight of a pane
-Get the referencing node from the line item : Set the referenced node (product display) into a variable to be reused in another action
+RULES EVENTS
+-------------
+1. Process checkout pane : Fires when a pane is processed during checkout.
+2. Process checkout page : Fires when a page is processed during checkout.
+3. Line item quantity has changed (occurs when adding ou removing a product to 
+   cart and when a quantity has been modified in cart form).
+
+RULES CONDITIONS
+----------------
+1. Line item product has terms : Test if a line item has a product with one or 
+   all specified terms.
+2. Total product with term quantity comparison : Total of products with term 
+   and with a specified quantity.
+3. Total product of type quantity comparison : Total of products of specified 
+   type and with a specified quantity.
+4. Total product of type amount comparison : Total of products of specified type 
+   and with a specified amount.
+
+RULES ACTIONS
+-------------
+1. Change pane properties : Change visibility, page, weight of a pane.
+2. Change page properties : Alter page attributes (Title, Help, and Submit 
+   Button Text).
+3. Get the referencing node from the line item : Set the referenced node 
+   (product display node) into a variable to be reused in another action.
