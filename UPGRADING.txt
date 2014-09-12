@@ -1,0 +1,18 @@
+This covers upgrading from any version prior to 7.x-2.1beta1
+
+7.x-2.1beta1 is a complete refactoring of the code of this module.  Many 
+functions where renamed and many files were renamed in order to adhere to
+Drupal.org coding standards.  This renaming could or could not affect your
+existing rules.  Therefore, in order to upgrade your module you
+will have to do a couple of steps.  This is the safest route for upgrading.
+
+1. Disable all Rules that are built on this module.
+2. Export all Rules you may have built on this module.
+3. Delete all Rules that are built on this module.
+4. Delete the existing module files and folder.
+5. Reinstall CRE with the latest code.
+6. Restore Rules from your exports in #2
+
+You may choose to not disable, export, delete, and restore your rules but you
+must complete #4 and #5 or you will cause Drupal to crash - the old module files
+must be deleted.
