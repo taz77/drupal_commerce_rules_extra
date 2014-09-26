@@ -66,12 +66,12 @@ function commerce_rules_extra_change_pane($pane_id, $page_id, $enabled, $weight)
   global $_commerce_rules_extra_pane_changes;
   if (!$_commerce_rules_extra_pane_changes) {
     $_commerce_rules_extra_pane_changes = array();
-    $_commerce_rules_extra_pane_changes[$pane_id] = array(
-      'page_id' => ($enabled ? $page_id : 'disabled'),
-      'enabled' => $enabled,
-      'weight' => $weight,
-    );
   }
+  $_commerce_rules_extra_pane_changes[$pane_id] = array(
+    'page_id' => ($enabled ? $page_id : 'disabled'),
+    'enabled' => $enabled,
+    'weight' => $weight,
+  );
 }
 
 /**
