@@ -24,8 +24,8 @@ INSTALLATION INSTRUCTIONS
 
 RULES EVENTS
 -------------
-1. Process checkout pane : Fires when a pane is processed during checkout.
-2. Process checkout page : Fires when a page is processed during checkout.
+1. Process change to a checkout pane : Fires when a pane is processed during checkout.
+2. Process change to a checkout page : Fires when a page is processed during checkout.
 3. Line item quantity has changed (occurs when adding ou removing a product to 
    cart and when a quantity has been modified in cart form).
 
