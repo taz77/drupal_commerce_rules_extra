@@ -68,14 +68,14 @@ function commerce_rules_extra_compare_product_quantity_form_alter(&$form, &$form
  * Calculates the quantity of products in an order that have the term $term_id
  * and compares it to a given value.
  */
-function commerce_rules_extra_compare_product_quantity($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value) {
-  return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, "quantity");
+function commerce_rules_extra_compare_product_quantity($order, $product_type, $exclude, $operator, $value, $voc_name, $term_id, $product_display, $term_operator) {
+  return commerce_rules_extra_compare_product($order, $voc_name, $term_id, $product_display, $term_operator, $product_type, $exclude, $operator, $value, 'quantity');
 }
 
 /**
  * Callback function for Commerce Rules Extra Compare Product.
  */
-function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, $type = "quantity") {
+function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, $type = 'quantity') {
   $quantity = 0;
   $voc_name = trim($voc_name);
   if (!empty($order)) {
