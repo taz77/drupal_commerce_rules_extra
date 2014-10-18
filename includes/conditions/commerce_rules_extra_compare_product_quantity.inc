@@ -28,8 +28,8 @@ function commerce_rules_extra_compare_product_quantity_condition_info() {
       ),
       'exclude' => array(
         'type' => 'boolean',
-        'label' => t('Exclude content_type'),
-        'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated.'),
+        'label' => t('Exclude Selected Content'),
+        'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated. Negates previous selection.'),
         'restriction' => 'input',
       ),
       'operator' => array(
