@@ -39,6 +39,11 @@ RULES CONDITIONS
    type and with a specified quantity.
 4. Total product of type amount comparison : Total of products of specified type 
    and with a specified amount.
+5. Total quantity of product line items in the cart: This is the total count of
+   line items in the cart that are of the type "product".  This does not count
+   the quantity of the line items just how many individual product line items
+   that are in the cart.  Example: you want to give a discount to someone that
+   purchases 5 separate items from your cart but not 5 of one item.
 
 RULES ACTIONS
 -------------
