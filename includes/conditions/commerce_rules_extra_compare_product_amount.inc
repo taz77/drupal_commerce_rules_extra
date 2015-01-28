@@ -30,6 +30,6 @@ function commerce_rules_extra_compare_product_amount_form_alter(&$form, &$form_s
 /**
  * Callback function for Compare Product Amount condition.
  */
-function commerce_rules_extra_compare_product_amount($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value) {
-  return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $require_all, $product_type, $exclude, $operator, $value, 'amount');
+function commerce_rules_extra_compare_product_amount($order, $product_type, $exclude, $operator, $value, $voc_name, $term_ids, $product_display, $term_operator) {
+  return commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $product_display, $term_operator, $product_type, $exclude, $operator, $value, 'amount');
 }
