@@ -8,8 +8,18 @@ https://www.drupal.org/project/commerce_rules_extra
 REQUIREMENTS
 ------------
 * Drupal Commerce
-* Rules
+* Rules version 2.7
 * Taxonomy
+
+RULES MODULE
+------------
+Commerce Rules Extra is only tested on Rules Version 2.7. Rules version 2.8 is not
+compatible with Drupal Commerce; therefore, Commerce Guys state that Drupal
+Commerce can only run with Rules version 2.7. This issue is documentented in
+issues on Drupal.org.
+https://www.drupal.org/node/2407897
+https://www.drupal.org/node/2410341
+https://www.drupal.org/node/2403851
 
 INSTALLATION INSTRUCTIONS
 -------------------------
