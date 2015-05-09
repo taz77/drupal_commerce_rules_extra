@@ -1,5 +1,14 @@
 <?php
-function commerce_rules_get_original_price_action_info() {
+
+/**
+ * @file
+ * Rules action CRE get original price of item.
+ */
+
+/**
+ * Helper function to return the action info to the main module.
+ */
+function commerce_rules_extra_get_original_price_action_info() {
     return array (
       'label' => t('Get the original price of the product from the line item'),
       'group' => t('Commerce Line Item'),
@@ -19,11 +28,11 @@ function commerce_rules_get_original_price_action_info() {
 }
 
 /**
- * Callback function for rule commerce_rules_get_original_price
+ * Callback function for rule commerce_rules_extra_get_original_price
  *
  * Return original price from line item.
  */
-function commerce_rules_get_original_price($line_item) {
+function commerce_rules_extra_get_original_price($line_item) {
   $price = NULL;
 
   $old_price = $line_item->commerce_unit_price[LANGUAGE_NONE][0]['data']['components'][0]['price']['amount'];
