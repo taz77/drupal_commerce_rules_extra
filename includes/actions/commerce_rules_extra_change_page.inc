@@ -26,6 +26,7 @@ function commerce_rules_extra_change_page_action_info() {
         'description' => t('Set the page title.'),
         'optional' => TRUE,
         'restriction' => 'input',
+        'translatable' => TRUE,
       ),
       'help' => array(
         'type' => 'text',
@@ -33,6 +34,7 @@ function commerce_rules_extra_change_page_action_info() {
         'description' => t('Set the help text displayed at the top of the page.'),
         'optional' => TRUE,
         'restriction' => 'input',
+        'translatable' => TRUE,
       ),
       'submit_value' => array(
         'type' => 'text',
@@ -40,6 +42,7 @@ function commerce_rules_extra_change_page_action_info() {
         'description' => t('Set the value of the submit button.'),
         'optional' => TRUE,
         'restriction' => 'input',
+        'translatable' => TRUE,
       ),
     ),
   );
