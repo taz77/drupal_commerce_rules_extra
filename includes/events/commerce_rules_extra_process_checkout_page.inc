@@ -9,10 +9,10 @@
  * Helper function to return the event info to the main module.
  */
 function commerce_rules_extra_process_checkout_page_event_info() {
-  return array(
+  return [
     'label' => t('Process a change to the checkout page'),
     'group' => t('Commerce Checkout'),
-  );
+  ];
 }
 
 /**
@@ -24,9 +24,9 @@ function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages
 
   global $_commerce_rules_extra_page_changes;
   if (!$_commerce_rules_extra_page_changes) {
-    $_commerce_rules_extra_page_changes = array();
+    $_commerce_rules_extra_page_changes = [];
   }
-  $urls = array('checkout', 'system');
+  $urls = ['cart', 'checkout', 'system'];
   drupal_alter('checkout_page_urls', $urls);
   if (in_array(arg(0), $urls)) {
 
@@ -36,7 +36,7 @@ function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages
     // below has to exactly match what's done in commerce_checkout_pages().
     $count = 0;
     foreach ($checkout_pages as $page_id => $checkout_page) {
-      $defaults = array(
+      $defaults = [
         'page_id' => $page_id,
         'name' => $checkout_page['title'],
         'title' => '',
@@ -47,7 +47,7 @@ function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages
         'submit_value' => t('Continue to next step'),
         'prev_page' => NULL,
         'next_page' => NULL,
-      );
+      ];
 
       $checkout_pages[$page_id] += $defaults;
 
