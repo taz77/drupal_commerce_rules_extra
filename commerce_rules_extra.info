@@ -1,6 +1,7 @@
 name = Commerce Rules Extra
 description = Extra Commerce Rules.
 core = 7.x
+php = 5.4
 package = Commerce (contrib)
 dependencies[] = commerce_line_item
 dependencies[] = taxonomy
