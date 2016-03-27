@@ -9,22 +9,22 @@
  * Helper function to return the action info to the main module.
  */
 function commerce_rules_extra_add_line_item_to_cart_action_info() {
-  return array(
+  return [
     'label' => t('Add line item to cart'),
-    'parameter' => array(
-      'order' => array(
+    'parameter' => [
+      'order' => [
         'type' => 'commerce_order',
         'label' => t('Commerce Order'),
-      ),
-      'line_item' => array(
+      ],
+      'line_item' => [
         'type' => 'commerce_line_item',
         'label' => t('Commerce Line Item'),
-      ),
-    ),
+      ],
+    ],
     'group' => t('Commerce Line Item'),
     'base' => 'commerce_rules_extra_add_line_item_to_cart_action',
-    'callbacks' => array('execute' => 'commerce_rules_extra_add_line_item_to_cart_action'),
-  );
+    'callbacks' => ['execute' => 'commerce_rules_extra_add_line_item_to_cart_action'],
+  ];
 }
 
 /**

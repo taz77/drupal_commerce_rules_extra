@@ -9,22 +9,22 @@
  * Helper function to return the action info to the main module.
  */
 function commerce_rules_extra_node_from_line_item_action_info() {
-  return array(
+  return [
     'label' => t('Get the referencing node from the line item'),
     'group' => t('Commerce Line Item'),
-    'parameter' => array(
-      'line_item' => array(
+    'parameter' => [
+      'line_item' => [
         'type' => 'commerce_line_item',
         'label' => t('Commere Line Item'),
-      ),
-    ),
-    'provides' => array(
-      'referencing_node' => array(
+      ],
+    ],
+    'provides' => [
+      'referencing_node' => [
         'type' => 'node',
         'label' => t('Referencing node'),
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 }
 
 /**
@@ -48,5 +48,5 @@ function commerce_rules_extra_node_from_line_item($line_item) {
     }
   }
 
-  return array('referencing_node' => $node);
+  return ['referencing_node' => $node];
 }

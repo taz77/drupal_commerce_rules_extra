@@ -9,22 +9,22 @@
  * Helper function to return the action info to the main module.
  */
 function commerce_rules_extra_get_original_price_action_info() {
-    return array (
-      'label' => t('Get the original price of the product from the line item'),
-      'group' => t('Commerce Line Item'),
-      'parameter' => array(
-        'line_item' => array(
-          'type' => 'commerce_line_item',
-          'label' => t('Commerce Line Item'),
-        ),
-      ),
-      'provides' => array(
-        'orig_price' => array(
-          'type' => 'integer',
-          'label' => t('Original Price'),
-        ),
-      ),
-    );
+  return [
+    'label' => t('Get the original price of the product from the line item'),
+    'group' => t('Commerce Line Item'),
+    'parameter' => [
+      'line_item' => [
+        'type' => 'commerce_line_item',
+        'label' => t('Commerce Line Item'),
+      ],
+    ],
+    'provides' => [
+      'orig_price' => [
+        'type' => 'integer',
+        'label' => t('Original Price'),
+      ],
+    ],
+  ];
 }
 
 /**
@@ -39,5 +39,5 @@ function commerce_rules_extra_get_original_price($line_item) {
   if (isset($old_price)) {
     $price = $old_price;
   }
-  return array('orig_price' => $price);
+  return ['orig_price' => $price];
 }
