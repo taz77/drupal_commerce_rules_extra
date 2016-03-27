@@ -9,32 +9,32 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_compare_line_item_count_condition_info() {
-  $info = array(
+  $info = [
     'group' => t('Commerce Order'),
     'label' => t('Total quantity of product line items in the cart'),
-    'parameter' => array(
-      'order' => array(
+    'parameter' => [
+      'order' => [
         'type' => 'commerce_order',
         'label' => t('Order'),
         'description' => t('The order whose product line items you want counted. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
-      ),
-      'operator' => array(
+      ],
+      'operator' => [
         'type' => 'text',
         'label' => t('Operator'),
         'description' => t('The comparison operator to use against the total line item count.'),
         'default value' => '>=',
         'options list' => 'commerce_numeric_comparison_operator_options_list',
         'restriction' => 'input',
-      ),
-      'value' => array(
+      ],
+      'value' => [
         'type' => 'integer',
         'label' => t('Quantity'),
         'default value' => 1,
         'description' => t('The value to compare against the total line item count in the order.'),
-      ),
-    ),
-    'callbacks' => array('execute' => 'commerce_rules_extra_compare_line_item_count'),
-  );
+      ],
+    ],
+    'callbacks' => ['execute' => 'commerce_rules_extra_compare_line_item_count'],
+  ];
   return $info;
 }
 
@@ -52,7 +52,7 @@ function commerce_rules_extra_compare_line_item_count($order, $operator, $value)
 
     if (!empty($line_items)) {
       // Holds line items that have products with $term_id
-      $termed_line_items = array();
+      $termed_line_items = [];
       foreach ($line_items as $line_item) {
         if ($line_item->type == 'product') {
           $quantity++;

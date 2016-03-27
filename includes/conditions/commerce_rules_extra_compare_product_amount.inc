@@ -11,12 +11,12 @@
 function commerce_rules_extra_compare_product_amount_condition_info() {
   $conditions = commerce_rules_extra_compare_product_quantity_condition_info();
   $conditions['label'] = t('Total amount of selected products comparison');
-  $conditions['parameter']['value'] = array(
+  $conditions['parameter']['value'] = [
     'type' => 'integer',
     'label' => t('Total amount'),
     'default value' => 100,
     'description' => t('The value to compare against the total amount of products of the type on the order. Amount without decimal point (ie : 50.65 US ==> 5065'),
-  );
+  ];
   return $conditions;
 }
 

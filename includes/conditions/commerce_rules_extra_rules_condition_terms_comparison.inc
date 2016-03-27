@@ -9,27 +9,27 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_rules_condition_terms_comparison_condition_info() {
-  return array(
+  return [
     'group' => t('Commerce Line Item'),
     'label' => t('Line item product and another entity have matching terms'),
-    'parameter' => array(
-      'line_item' => array(
+    'parameter' => [
+      'line_item' => [
         'type' => 'commerce_line_item',
         'label' => t('Commerce Line Item'),
-      ),
-      'voc_name' => array(
+      ],
+      'voc_name' => [
         'type' => 'text',
         'label' => t('Term Reference Field'),
         'description' => t('The machine-name of the expected product\'s term reference field'),
         'options list' => 'commerce_rules_extra_term_fields_options_list',
         'restriction' => 'input',
-      ),
-      'entity' => array(
+      ],
+      'entity' => [
         'type' => 'integer',
         'label' => t('Entity to be compared'),
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 }
 
 /**
@@ -51,7 +51,7 @@ function commerce_rules_extra_rules_condition_terms_comparison($line_item, $voc_
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
-    $product_terms = array();
+    $product_terms = [];
     foreach (commerce_rules_extra_get_fields_for_vocabulary($voc_name) as $field) {
       if (isset($product->$field)) {
         $product_terms = $wrapper->commerce_product->$field->value();

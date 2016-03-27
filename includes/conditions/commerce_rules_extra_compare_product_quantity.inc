@@ -9,45 +9,45 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_compare_product_quantity_condition_info() {
-  $info = array(
+  $info = [
     'group' => t('Commerce Order'),
     'label' => t('Total quantity of selected product comparison'),
-    'parameter' => array(
-      'order' => array(
+    'parameter' => [
+      'order' => [
         'type' => 'commerce_order',
         'label' => t('Order'),
         'description' => t('The order whose product line item quantities should be totalled. If the specified order does not exist, the comparison will act as if it is against a quantity of 0.'),
-      ),
-      'product_type' => array(
+      ],
+      'product_type' => [
         'type' => 'list<integer>',
         'label' => t('Product Type(s)'),
         'description' => t('The type(s) of the product to look for on the order.'),
         'options list' => 'commerce_rules_extra_product_type_options_list',
         'restriction' => 'input',
         'optional' => TRUE,
-      ),
-      'exclude' => array(
+      ],
+      'exclude' => [
         'type' => 'boolean',
         'label' => t('Exclude Selected Content'),
         'description' => t('If checked the total of all products on the order excluding the product type specified above will be calculated. Negates previous selection.'),
         'restriction' => 'input',
-      ),
-      'operator' => array(
+      ],
+      'operator' => [
         'type' => 'text',
         'label' => t('Operator'),
         'description' => t('The comparison operator to use against the total number of products matching the term on the order.'),
         'default value' => '>=',
         'options list' => 'commerce_numeric_comparison_operator_options_list',
         'restriction' => 'input',
-      ),
-      'value' => array(
+      ],
+      'value' => [
         'type' => 'integer',
         'label' => t('Quantity'),
         'default value' => 1,
         'description' => t('The value to compare against the total quantity of products matching the term on the order.'),
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
   $condition = array_merge_recursive($info, commerce_rules_extra_terms_parameters(FALSE));
   return $condition;
 }
@@ -83,7 +83,7 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
     $line_items = $wrapper->commerce_line_items->value();
     if (!empty($line_items)) {
       // Holds line items that have products with $term_id
-      $termed_line_items = array();
+      $termed_line_items = [];
       foreach ($line_items as $line_item) {
         if (in_array($line_item->type, commerce_product_line_item_types())) {
           $pwrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
@@ -142,5 +142,5 @@ function commerce_rules_extra_compare_product($order, $voc_name, $term_ids, $pro
  * Callback function to create empty products option list.
  */
 function commerce_rules_extra_product_type_options_list() {
-  return array('' => '<' . t('none') . '>') + commerce_product_type_options_list();
+  return ['' => '<' . t('none') . '>'] + commerce_product_type_options_list();
 }

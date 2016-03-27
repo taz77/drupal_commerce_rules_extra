@@ -9,16 +9,16 @@
  * Helper function to return the condition info to the main module.
  */
 function commerce_rules_extra_rules_condition_has_terms_condition_info() {
-  $info = array(
+  $info = [
     'group' => t('Commerce Line Item'),
     'label' => t('Line item product has term(s)'),
-    'parameter' => array(
-      'line_item' => array(
+    'parameter' => [
+      'line_item' => [
         'type' => 'commerce_line_item',
         'label' => t('Commere Line Item'),
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
   $condition = array_merge_recursive($info, commerce_rules_extra_terms_parameters());
   return $condition;
 }
@@ -27,41 +27,41 @@ function commerce_rules_extra_rules_condition_has_terms_condition_info() {
  * Creates a list of term parameters.
  */
 function commerce_rules_extra_terms_parameters($required = TRUE) {
-  $paramaters = array(
-    'parameter' => array(
-      'voc_name' => array(
+  $paramaters = [
+    'parameter' => [
+      'voc_name' => [
         'type' => 'text',
         'label' => t('Term Reference Field'),
         'description' => t('The machine-name of the expected product\'s term reference field'),
         'options list' => ($required ? 'commerce_rules_extra_term_fields_options_list' : 'commerce_rules_extra_term_fields_optional_options_list'),
         'restriction' => 'input',
         'optional' => !$required,
-      ),
-      'term_id' => array(
+      ],
+      'term_id' => [
         'type' => 'list<integer>',
         'label' => t('Taxonomy Term(s)'),
         'description' => t('The term(s) being checked for'),
         'restriction' => 'input',
         'options list' => 'commerce_rules_extra_empty_options_list',
         'optional' => TRUE,
-      ),
-      'product_display' => array(
+      ],
+      'product_display' => [
         'type' => 'boolean',
         'label' => t('Search terms in product display, not in product'),
         'description' => t('If checked search will be made on product display.'),
         'restriction' => 'input',
-      ),
-      'term_operator' => array(
+      ],
+      'term_operator' => [
         'type' => 'text',
         'label' => t('Operator'),
         'description' => t('Selection mode of terms'),
         'options list' => 'commerce_rules_extra_get_operators',
         'restriction' => 'input',
         'optional' => !$required,
-      ),
-    ),
-  );
-  
+      ],
+    ],
+  ];
+
   return $paramaters;
 }
 
@@ -71,16 +71,16 @@ function commerce_rules_extra_terms_parameters($required = TRUE) {
 function commerce_rules_extra_rules_condition_has_terms_form_alter(&$form, &$form_state, $options, RulesAbstractPlugin $element) {
   // Require the term reference field be selected first so that the term_ids list can be populated.
   // Change the list parameter to be not editable any more.
-  $form['parameter']['voc_name']['settings']['voc_name']['#ajax'] = array(
+  $form['parameter']['voc_name']['settings']['voc_name']['#ajax'] = [
     'event' => 'change',
     'callback' => 'commerce_rules_extra_ajax_load_terms',
     'wrapper' => 'cre_terms',
-  );
+  ];
   $form['parameter']['term_operator']['settings']['term_operator']['#prefix'] = '<div style="float:left">';
   $form['parameter']['term_operator']['settings']['term_operator']['#title'] = 'Operator';
   $form['parameter']['term_operator']['settings']['term_operator']['#suffix'] = '</div>';
   $form['parameter']['term_id']['settings']['term_id']['#prefix'] = '<div id="cre_terms" style="float:left; margin-left:10px;">';
-  $form['parameter']['term_id']['settings']['term_id']['#options'] = (empty($element->settings['voc_name']) ? array() : commerce_rules_extra_get_terms_list($element->settings['voc_name']));
+  $form['parameter']['term_id']['settings']['term_id']['#options'] = (empty($element->settings['voc_name']) ? [] : commerce_rules_extra_get_terms_list($element->settings['voc_name']));
   $form['parameter']['term_id']['settings']['term_id']['#suffix'] = '</div>';
   $form["#theme"] = 'form--cre_condition';
 }
@@ -92,7 +92,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
   if (!empty($line_item)) {
     $wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
     $product = $wrapper->commerce_product->value();
-    $product_terms = array();
+    $product_terms = [];
     if ($product_display) {
       if (empty($line_item->line_item_id) && (isset($product->display_context))) {
         $line_item->data['context'] = $product->display_context;
@@ -102,7 +102,9 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
       if (NULL == $node) {
         return FALSE;
       }
-      $query = db_select('taxonomy_index', 't')->fields('t', array('tid'))->condition('nid', $node->nid, '=');
+      $query = db_select('taxonomy_index', 't')
+        ->fields('t', ['tid'])
+        ->condition('nid', $node->nid, '=');
       $results = $query->execute();
       foreach ($results as $t) {
         $product_terms[] = $t;
@@ -126,7 +128,7 @@ function commerce_rules_extra_rules_condition_has_terms($line_item, $voc_name, $
 
       if (!is_array($product_terms)) {
         $t = $product_terms;
-        $product_terms = array(0 => $t);
+        $product_terms = [0 => $t];
       }
       switch ($term_operator) {
         case 'IAO':
@@ -184,7 +186,7 @@ function commerce_rules_extra_get_fields_for_vocabulary($voc) {
   $fields = &drupal_static(__FUNCTION__);
 
   if (!isset($fields)) {
-    $termfields = field_read_fields(array('type' => 'taxonomy_term_reference'));
+    $termfields = field_read_fields(['type' => 'taxonomy_term_reference']);
     foreach ($termfields as $field_name => $infos) {
       $fields[$infos['settings']['allowed_values'][0]['vocabulary']][] = $field_name;
     }
@@ -196,7 +198,7 @@ function commerce_rules_extra_get_fields_for_vocabulary($voc) {
  * Function to return an array of machine_names for taxonomy term reference fields.
  */
 function commerce_rules_extra_term_fields_optional_options_list() {
-  $field_options_list = array('' => '<' . t('none') . '>') + commerce_rules_extra_term_fields_options_list();
+  $field_options_list = ['' => '<' . t('none') . '>'] + commerce_rules_extra_term_fields_options_list();
   return $field_options_list;
 }
 
@@ -204,7 +206,7 @@ function commerce_rules_extra_term_fields_optional_options_list() {
  * Function to create options lists for the form for has terms.
  */
 function commerce_rules_extra_term_fields_options_list() {
-  $field_options_list = array();
+  $field_options_list = [];
   $vocs = taxonomy_get_vocabularies();
   foreach ($vocs as $voc) {
     $field_options_list[$voc->machine_name] = $voc->name;
@@ -217,10 +219,10 @@ function commerce_rules_extra_term_fields_options_list() {
  * Callback function to load terms into form for has terms.
  */
 function commerce_rules_extra_ajax_load_terms($form, $form_state) {
-  return array(
+  return [
     '#type' => 'ajax',
-    '#commands' => array(ajax_command_insert(NULL, drupal_render($form['parameter']['term_id']['settings']))),
-  );
+    '#commands' => [ajax_command_insert(NULL, drupal_render($form['parameter']['term_id']['settings']))],
+  ];
 }
 
 /**
@@ -228,11 +230,11 @@ function commerce_rules_extra_ajax_load_terms($form, $form_state) {
  */
 function commerce_rules_extra_get_terms_list($voc_name) {
   if (empty($voc_name)) {
-    return array();
+    return [];
   }
   $voc = taxonomy_vocabulary_machine_name_load($voc_name);
   $terms = taxonomy_get_tree($voc->vid);
-  $term_list = array();
+  $term_list = [];
   if (!empty($terms)) {
     foreach ($terms as $term) {
       $term_list[$term->tid] = str_repeat('-', $term->depth) . $term->name;
@@ -249,18 +251,18 @@ function commerce_rules_extra_get_terms_list($voc_name) {
  * options sets will have their form variables populated correctly.
  */
 function commerce_rules_extra_empty_options_list() {
-  return array();
+  return [];
 }
 
 /**
  * Funciton to create an option list of operators for forms.
  */
 function commerce_rules_extra_get_operators() {
-  return array(
+  return [
     'IOO' => 'is one of',
     'IAO' => 'is all of',
     'INO' => 'is none of',
     'IE' => 'is empty (null)',
     'INE' => 'is not empty(not null)',
-  );
+  ];
 }
