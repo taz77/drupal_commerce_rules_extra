@@ -9,28 +9,28 @@
  * Helper function to return the event info to the main module.
  */
 function commerce_rules_extra_line_item_quantity_changed_event_info() {
-  return array(
+  return [
     'label' => t('Quantity of line item has changed'),
     'group' => t('Commerce Checkout'),
-    'variables' => array(
-      'commerce_order' => array(
+    'variables' => [
+      'commerce_order' => [
         'type' => 'commerce_order',
         'label' => t('Shopping cart order'),
-      ),
-      'commerce_product' => array(
+      ],
+      'commerce_product' => [
         'label' => t('Product'),
         'type' => 'commerce_product',
-      ),
-      'commerce_line_item' => array(
+      ],
+      'commerce_line_item' => [
         'label' => t('Line item'),
         'type' => 'commerce_line_item',
-      ),
-      'commerce_line_item_old_quantity' => array(
+      ],
+      'commerce_line_item_old_quantity' => [
         'label' => t('Commerce item quantity before changes'),
         'type' => 'decimal',
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 }
 
 /**
