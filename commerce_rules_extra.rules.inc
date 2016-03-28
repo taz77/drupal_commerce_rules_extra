@@ -38,7 +38,7 @@ function commerce_rules_extra_rules_condition_info() {
  */
 function commerce_rules_extra_rules_action_info() {
   global $_commerce_rules_extra_cre_includes;
-  $actions = array();
+  $actions = [];
   foreach ($_commerce_rules_extra_cre_includes['actions'] as $file) {
     $rule = basename($file, '.inc');
     $f = $rule . '_action_info';
@@ -55,7 +55,7 @@ function commerce_rules_extra_rules_action_info() {
  */
 function commerce_rules_extra_get_pages() {
   $pages = commerce_checkout_pages();
-  $return = array('<same>' => '<do not change>');
+  $return = ['<same>' => '<do not change>'];
   foreach ($pages as $page_id => $page) {
     $return[$page_id] = $page['name'];
   }
