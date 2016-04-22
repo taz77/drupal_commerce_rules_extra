@@ -11,7 +11,7 @@ REQUIREMENTS
 * Rules version 2.7 (or 2.9)
 * Taxonomy
 
-IMPORTAND RULES MODULE INFORMATION
+IMPORTANT RULES MODULE INFORMATION
 --------------------------------------------------------------------------------
 Commerce Rules Extra is only tested on Rules Version 2.7 and 2.9. Rules version 2.8 is not
 compatible with Drupal Commerce; therefore, Commerce Guys state that Drupal
