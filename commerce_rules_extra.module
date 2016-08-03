@@ -6,19 +6,29 @@
  */
 
 // Include all events, actions and conditions files.
-$dir = drupal_get_path('module', 'commerce_rules_extra');
+// @TODO See if we can use hook_rules_file_info() to avoid includes on every
+// call. Or try to switch to ctools plugins instead.
+// @link https://www.drupal.org/node/2702975#comment-11466049
 $mask = '/.*\.inc$/';
-$events = file_scan_directory($dir . '/events', $mask);
-$conditions = file_scan_directory($dir . '/conditions', $mask);
-$actions = file_scan_directory($dir . '/actions', $mask);
+$events = file_scan_directory(__DIR__ . '/includes/events', $mask);
+$conditions = file_scan_directory(__DIR__ . '/includes/conditions', $mask);
+$actions = file_scan_directory(__DIR__ . '/includes/actions', $mask);
+$GLOBALS['_commerce_rules_extra_cre_includes'] = array(
+  'events' => array(),
+  'conditions' => array(),
+  'actions' => array(),
+);
 foreach ($events as $item) {
-  module_load_include('inc', 'commerce_rules_extra', 'includes/events' . $item->name);
+  module_load_include('inc', 'commerce_rules_extra', 'includes/events/' . $item->name);
+  $GLOBALS['_commerce_rules_extra_cre_includes']['events'][$item->name] = $item->filename;
 }
 foreach ($conditions as $item) {
-  module_load_include('inc', 'commerce_rules_extra', 'includes/conditions' . $item->name);
+  module_load_include('inc', 'commerce_rules_extra', 'includes/conditions/' . $item->name);
+  $GLOBALS['_commerce_rules_extra_cre_includes']['conditions'][$item->name] = $item->filename;
 }
 foreach ($actions as $item) {
-  module_load_include('inc', 'commerce_rules_extra', 'includes/actions' . $item->name);
+  module_load_include('inc', 'commerce_rules_extra', 'includes/actions/' . $item->name);
+  $GLOBALS['_commerce_rules_extra_cre_includes']['actions'][$item->name] = $item->filename;
 }
 
 /**
