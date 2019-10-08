@@ -84,12 +84,14 @@ function commerce_rules_extra_commerce_checkout_pane_info_alter(&$checkout_panes
     }
     rules_invoke_all('commerce_rules_extra_process_checkout_pane', $commerce_order);
     foreach ($_commerce_rules_extra_pane_changes as $pane_id => $changes) {
-      $checkout_panes[$pane_id]['enabled'] = $changes['enabled'];
-      if ($changes['weight'] != '') {
-        $checkout_panes[$pane_id]['weight'] = $changes['weight'];
-      }
-      if ($changes['page_id'] != '<same>') {
-        $checkout_panes[$pane_id]['page'] = $changes['page_id'];
+      if (isset($checkout_panes[$pane_id])) {
+        $checkout_panes[$pane_id]['enabled'] = $changes['enabled'];
+        if ($changes['weight'] != '') {
+          $checkout_panes[$pane_id]['weight'] = $changes['weight'];
+        }
+        if ($changes['page_id'] != '<same>') {
+          $checkout_panes[$pane_id]['page'] = $changes['page_id'];
+        }
       }
     }
   }
