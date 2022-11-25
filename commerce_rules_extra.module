@@ -139,7 +139,8 @@ function commerce_rules_extra_commerce_checkout_page_info_alter(&$checkout_pages
       }
     }
 
-    rules_invoke_all('commerce_rules_extra_process_checkout_page');
+    $commerce_order = commerce_cart_get_properties(FALSE, [], 'current_cart_order');
+    rules_invoke_all('commerce_rules_extra_process_checkout_page', $commerce_order);
     foreach ($_commerce_rules_extra_page_changes as $page_id => $changes) {
       if ($changes['title'] != '') {
         $checkout_pages[$page_id]['title'] = $changes['title'];
